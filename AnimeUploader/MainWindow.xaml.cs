@@ -56,8 +56,8 @@ namespace AnimeUploader
                 myanimeObject.AnimeID = animeId;
                 myanimeObject.Episodes = episodes;
                 myanimeObject.Score = score;
-                DBControl.InsertAnimeList(animeObject);
-                DBControl.InsertMyAnimeList(myanimeObject);
+                DBControl.AnimeList(animeObject);
+                DBControl.MyAnimeList(myanimeObject);
                
             }
         }
