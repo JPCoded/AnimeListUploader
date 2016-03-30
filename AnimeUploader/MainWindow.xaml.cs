@@ -14,7 +14,7 @@ namespace AnimeUploader
         {
             InitializeComponent();
         }
-
+//http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime
 //Need to refactor 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
