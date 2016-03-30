@@ -17,7 +17,7 @@ namespace AnimeUploader
 //Need to refactor 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            var DBControl = new DatabaseControl();
+            var dbControl = new DatabaseControl();
             var getAnime = new PageScraper();
             var animedoc = XElement.Load("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
             var animeElements = animedoc.Elements("anime");
@@ -33,12 +33,12 @@ namespace AnimeUploader
                 var title = anime.Element("series_title").Value;
                 var newTitle = title.Replace("<![CDATA[", "").Replace("]]>", "").Replace("'", "''");
 
-                if (DBControl.AnimeExists(animeId))
+                if (dbControl.AnimeExists(animeId))
                 {
                     animeObject = getAnime.GetAnimeInfo(animeId);
                     animeObject.Title = newTitle;
 
-                    DBControl.AnimeList(animeObject);
+                    dbControl.AnimeList(animeObject);
                 }
 
                 myanimeObject.AnimeID = animeId;
@@ -46,8 +46,9 @@ namespace AnimeUploader
                 myanimeObject.Score = score;
                 myanimeObject.Status = myanimeObject.GetStatus(status);
 
-                DBControl.MyAnimeList(myanimeObject);
+                dbControl.MyAnimeList(myanimeObject);
             }
+            txtResults.Text = "DONE";
         }
     }
 }

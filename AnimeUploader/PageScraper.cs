@@ -20,8 +20,9 @@ namespace AnimeUploader
             var rating = document.DocumentNode.SelectSingleNode("//*[text()='Rating:']/parent::div");
             var synopsis = document.DocumentNode.SelectSingleNode("//span[@itemprop='description']");
             var prequel = document.DocumentNode.SelectSingleNode("//*[text()='Prequel:']/parent::tr");
+            var sequel = document.DocumentNode.SelectSingleNode("//*[text()='Sequel:']/parent::tr");
 
-            var newType = type.InnerText.Trim().Remove(0, 6).Trim();
+            var newType = type.InnerText.Trim().Replace("Type:","").Trim();
             var newEpisodes = episode.InnerText.Trim().Remove(0, 9).Trim();
             var newStatus = statu.InnerText.Trim().Remove(0, 7).Trim();
             var newAired = aired.InnerText.Trim().Remove(0, 6).Trim();
@@ -29,12 +30,24 @@ namespace AnimeUploader
             var newRating = rating.InnerText.Trim().Remove(0, 9).Trim();
             var newSynopsis = synopsis.InnerText.Trim().Replace("'","''");
             var newPrequel ="";
+            var newSequel = "";
             try
             {
-                newPrequel = prequel.InnerText.Trim().Remove(0, 8);
+                newPrequel = prequel.InnerText.Trim().Replace("Prequel:","").Trim().Replace("'","''");
             }
-            catch(Exception ex)
-            { }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            try
+            {
+                newSequel = sequel.InnerText.Trim().Replace("Sequel:", "").Trim().Replace("'", "''");
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
 
             anime.ID = AnimeID;
             anime.Rating = anime.GetRating(newRating);
@@ -44,8 +57,8 @@ namespace AnimeUploader
             anime.Aired = newAired;
             anime.Description = newSynopsis;
             anime.Status = anime.GetStatus(newStatus);
-            anime.Prequel = "";
-            anime.Sequel = "";
+            anime.Prequel = newPrequel;
+            anime.Sequel = newSequel;
 
             return anime;
         }
