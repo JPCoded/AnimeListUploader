@@ -1,7 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Net;
-
-namespace AnimeUploader
+﻿namespace AnimeUploader
 {
     internal class Anime
     {

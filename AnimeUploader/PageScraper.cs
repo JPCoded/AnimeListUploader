@@ -19,7 +19,7 @@ namespace AnimeUploader
             var duration = document.DocumentNode.SelectSingleNode("//*[text()='Duration:']/parent::div").InnerText.Replace("Duration:", "").Trim(); ;
             var rating = document.DocumentNode.SelectSingleNode("//*[text()='Rating:']/parent::div").InnerText.Replace("Rating:", "").Trim(); ;
             var synopsis = document.DocumentNode.SelectSingleNode("//span[@itemprop='description']").InnerText.Replace("'", "''").Trim(); ;
-            var genres = document.DocumentNode.SelectSingleNode("//*[text()='Genres:']/parent::div").InnerText.Replace("Genres:","").Trim();
+            var genres = document.DocumentNode.SelectSingleNode("//*[text()='Genres:']/parent::div").InnerText.Replace("Genres:","").Trim().Split(',');
             var prequel = document.DocumentNode.SelectSingleNode("//*[text()='Prequel:']/parent::tr");
             var sequel = document.DocumentNode.SelectSingleNode("//*[text()='Sequel:']/parent::tr");
 
