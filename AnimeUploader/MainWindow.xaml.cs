@@ -30,13 +30,13 @@ namespace AnimeUploader
                 var episodes = Convert.ToInt32(anime.Element("my_watched_episodes").Value);
                 var score = Convert.ToInt32(anime.Element("my_score").Value);
                 var animeId = Convert.ToInt32(anime.Element("series_animedb_id").Value);
-                var title = anime.Element("series_title").Value;
-                var newTitle = title.Replace("<![CDATA[", "").Replace("]]>", "").Replace("'", "''");
+                var title = anime.Element("series_title").Value.Replace("'","''");
+               
 
                 if (dbControl.AnimeExists(animeId))
                 {
                     animeObject = getAnime.GetAnimeInfo(animeId);
-                    animeObject.Title = newTitle;
+                    animeObject.Title = title;
 
                     dbControl.AnimeList(animeObject);
                 }
@@ -44,7 +44,7 @@ namespace AnimeUploader
                 myanimeObject.AnimeID = animeId;
                 myanimeObject.Episodes = episodes;
                 myanimeObject.Score = score;
-                myanimeObject.Status = myanimeObject.GetStatus(status);
+                myanimeObject.Status = status;
 
                 dbControl.MyAnimeList(myanimeObject);
             }
