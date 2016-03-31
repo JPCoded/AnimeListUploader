@@ -1,4 +1,7 @@
-﻿namespace AnimeUploader
+﻿using System.Linq.Expressions;
+using System.Net;
+
+namespace AnimeUploader
 {
     internal class Anime
     {
@@ -20,19 +23,19 @@
 
             switch (rating)
             {
-                case "G - All Ages":
+                case AniRating.G:
                     ratingNumber = 1;
                     break;
-                case "PG - Children":
+                case AniRating.PG:
                     ratingNumber = 2;
                     break;
-                case "PG-13 - Teens 13 or older":
+                case AniRating.PG13:
                     ratingNumber = 3;
                     break;
-                case "R - 17+ (violence &amp; profanity)":
+                case AniRating.R:
                     ratingNumber = 4;
                     break;
-                case "R+ - Mild Nudity":
+                case AniRating.X:
                     ratingNumber = 5;
                     break;
                 default:
@@ -73,17 +76,33 @@
 
             switch (status)
             {
-                case "Not yet aired":
+                case AniAiring.NotAired:
                     statusNumber = 1;
                     break;
-                case "Currently Airing":
+                case AniAiring.Airing:
                     statusNumber = 2;
                     break;
-                case "Finished Airing":
+                case AniAiring.Finished:
                     statusNumber = 3;
                     break;
             }
             return statusNumber;
         }
+    }
+
+    internal class AniRating
+    {
+        public const string G = "G - All Ages";
+        public const string PG = "PG - Children";
+        public const string PG13 = "PG-13 - Teens 13 or older";
+        public const string R = "R - 17+ (violence &amp; profanity)";
+        public const string X = "R+ - Mild Nudity";
+    }
+
+    internal class AniAiring
+    {
+        public const string NotAired = "Not yet aired";
+        public const string Airing = "Currently Airing";
+        public const string Finished = "Finished Airing";
     }
 }

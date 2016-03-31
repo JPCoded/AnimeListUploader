@@ -13,20 +13,29 @@
             var myStatus = 0;
             switch (status)
             {
-                case "Completed":
+                case MyStatus.Completed:
                     myStatus = 1;
                     break;
-                case "Watching":
+                case MyStatus.Watching:
                     myStatus = 2;
                     break;
-                case "Plan to Watch":
+                case MyStatus.PlanToWatch:
                     myStatus = 3;
                     break;
-                default:
+                case MyStatus.OnHold:
                     myStatus = 4;
                     break;
             }
             return myStatus;
         }
+
+        }
+
+    internal class MyStatus
+    {
+        public const string Completed = "Completed";
+        public const string Watching = "Watching";
+        public const string PlanToWatch = "Plan to Watch";
+        public const string OnHold = "On-Hold";
     }
 }
