@@ -12,23 +12,19 @@ namespace AnimeUploader
 
             var document = getHtmlWeb.Load("http://myanimelist.net/anime/" + AnimeID);
 
-            var type = document.DocumentNode.SelectSingleNode("//*[text()='Type:']/parent::div");
-            var episode = document.DocumentNode.SelectSingleNode("//*[text()='Episodes:']/parent::div");
-            var statu = document.DocumentNode.SelectSingleNode("//*[text()='Status:']/parent::div");
-            var aired = document.DocumentNode.SelectSingleNode("//*[text()='Aired:']/parent::div");
-            var duration = document.DocumentNode.SelectSingleNode("//*[text()='Duration:']/parent::div");
-            var rating = document.DocumentNode.SelectSingleNode("//*[text()='Rating:']/parent::div");
-            var synopsis = document.DocumentNode.SelectSingleNode("//span[@itemprop='description']");
+            var type = document.DocumentNode.SelectSingleNode("//*[text()='Type:']/parent::div").InnerText.Trim().Replace("Type:", "").Trim(); 
+            var episode = document.DocumentNode.SelectSingleNode("//*[text()='Episodes:']/parent::div").InnerText.Trim().Replace("Episodes:", "").Trim(); ;
+            var status = document.DocumentNode.SelectSingleNode("//*[text()='Status:']/parent::div").InnerText.Trim().Replace("Status:", "").Trim(); ;
+            var aired = document.DocumentNode.SelectSingleNode("//*[text()='Aired:']/parent::div").InnerText.Trim().Replace("Aired:", "").Trim(); ;
+            var duration = document.DocumentNode.SelectSingleNode("//*[text()='Duration:']/parent::div").InnerText.Trim().Replace("Duration:", "").Trim(); ;
+            var rating = document.DocumentNode.SelectSingleNode("//*[text()='Rating:']/parent::div").InnerText.Trim().Replace("Rating:", "").Trim(); ;
+            var synopsis = document.DocumentNode.SelectSingleNode("//span[@itemprop='description']").InnerText.Trim().Replace("'", "''").Trim(); ;
+            var genres = document.DocumentNode.SelectSingleNode("//*[text()='Genres:']/parent::div").InnerText.Trim().Replace("Genres:","").Trim();
             var prequel = document.DocumentNode.SelectSingleNode("//*[text()='Prequel:']/parent::tr");
             var sequel = document.DocumentNode.SelectSingleNode("//*[text()='Sequel:']/parent::tr");
 
-            var newType = type.InnerText.Trim().Replace("Type:","").Trim();
-            var newEpisodes = episode.InnerText.Trim().Remove(0, 9).Trim();
-            var newStatus = statu.InnerText.Trim().Remove(0, 7).Trim();
-            var newAired = aired.InnerText.Trim().Remove(0, 6).Trim();
-            var newDuration = duration.InnerText.Trim().Remove(0, 10).Trim();
-            var newRating = rating.InnerText.Trim().Remove(0, 9).Trim();
-            var newSynopsis = synopsis.InnerText.Trim().Replace("'","''");
+           
+            
             var newPrequel ="";
             var newSequel = "";
             try
@@ -50,13 +46,13 @@ namespace AnimeUploader
             }
 
             anime.ID = AnimeID;
-            anime.Rating = anime.GetRating(newRating);
-            anime.Type = anime.GetType(newType);
-            anime.Episodes = newEpisodes == "Unknown"? 0: Convert.ToInt32(newEpisodes);
-            anime.Duration = newDuration;
-            anime.Aired = newAired;
-            anime.Description = newSynopsis;
-            anime.Status = anime.GetStatus(newStatus);
+            anime.Rating = anime.GetRating(rating);
+            anime.Type = anime.GetType(type);
+            anime.Episodes = episode == "Unknown"? 0: Convert.ToInt32(episode);
+            anime.Duration = duration;
+            anime.Aired =aired;
+            anime.Description = synopsis;
+            anime.Status = anime.GetStatus(status);
             anime.Prequel = newPrequel;
             anime.Sequel = newSequel;
 
