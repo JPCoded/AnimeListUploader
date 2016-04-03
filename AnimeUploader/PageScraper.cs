@@ -56,6 +56,7 @@ namespace AnimeUploader
             anime.Status = anime.GetStatus(status);
             anime.Prequel = newPrequel;
             anime.Sequel = newSequel;
+           // anime.Genres = genres;
 
             return anime;
         }

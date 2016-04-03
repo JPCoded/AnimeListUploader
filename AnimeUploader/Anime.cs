@@ -1,4 +1,6 @@
-﻿namespace AnimeUploader
+﻿using System.Collections.Generic;
+
+namespace AnimeUploader
 {
     internal class Anime
     {
@@ -13,6 +15,7 @@
         public string Description { get; set; }
         public string Sequel { get; set; }
         public string Prequel { get; set; }
+      //  public string[] Genres { get; set; }
 
         public int GetRating(string rating)
         {

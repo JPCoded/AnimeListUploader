@@ -40,16 +40,26 @@ namespace AnimeUploader
 
                     dbControl.InsertAnimeList(animeObject);
                 }
+                
+
                 if (dbControl.MyAnimeExists(animeId))
                 {
                     myanimeObject.AnimeID = animeId;
-                    myanimeObject.Episodes = episodes;
+                    myanimeObject.WatchedEpisodes = episodes;
                     myanimeObject.Score = score;
                     myanimeObject.Status = status;
                     dbControl.InsertMyAnimeList(myanimeObject);
                 }
+                else
+                {
+                    var myanime = dbControl.getMyAnimeById(animeId);
+                    var myStatus = myanime.GetStatus(status);
+                  if(Convert.ToInt32(myanime.Status) != myanime.GetStatus(status))
+                        dbControl.UpdateMyAnimeList(animeId,score,episodes,myStatus);
+                }
+             // txtResults.Text=  dbControl.GetAnime().ToString();
             }
-            txtResults.Text = "DONE";
+          //  txtResults.Text = "DONE";
         }
     }
 }
