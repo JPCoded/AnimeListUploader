@@ -54,7 +54,7 @@ namespace AnimeUploader
                 {
                     var myanime = dbControl.getMyAnimeById(animeId);
                     var myStatus = myanime.GetStatus(status);
-                  if(Convert.ToInt32(myanime.Status) != myanime.GetStatus(status))
+                  if(Convert.ToInt32(myanime.Status) != myanime.GetStatus(status) || score != Convert.ToInt32(myanime.Score) || episodes != Convert.ToInt32(myanime.WatchedEpisodes))
                         dbControl.UpdateMyAnimeList(animeId,score,episodes,myStatus);
                 }
              // txtResults.Text=  dbControl.GetAnime().ToString();

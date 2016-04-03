@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
-
+//CONVERT TO ASYNC 
 namespace AnimeUploader
 {
     internal class DatabaseControl
