@@ -47,13 +47,13 @@ namespace AnimeUploader
             }
 
             anime.ID = AnimeID;
-            anime.Rating = anime.GetRating(rating);
-            anime.Type = anime.GetType(type);
+            anime.Rating = Anime.GetRating(rating);
+            anime.Type = Anime.GetType(type);
             anime.Episodes = episode == "Unknown"? 0: Convert.ToInt32(episode);
             anime.Duration = duration;
             anime.Aired =aired;
             anime.Description = synopsis;
-            anime.Status = anime.GetStatus(status);
+            anime.Status = Anime.GetStatus(status);
             anime.Prequel = newPrequel;
             anime.Sequel = newSequel;
            // anime.Genres = genres;

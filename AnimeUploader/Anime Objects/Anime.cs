@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace AnimeUploader
+﻿namespace AnimeUploader
 {
     internal class Anime
     {
@@ -17,7 +15,7 @@ namespace AnimeUploader
         public string Prequel { get; set; }
       //  public string[] Genres { get; set; }
 
-        public int GetRating(string rating)
+        public static int GetRating(string rating)
         {
             var ratingNumber = 0;
 
@@ -45,7 +43,7 @@ namespace AnimeUploader
             return ratingNumber;
         }
 
-        public int GetType(string type)
+        public static int GetType(string type)
         {
             var typeNumber = 0;
 
@@ -70,7 +68,7 @@ namespace AnimeUploader
             return typeNumber;
         }
 
-        public int GetStatus(string status)
+        public static int GetStatus(string status)
         {
             var statusNumber = 0;
 
@@ -90,7 +88,7 @@ namespace AnimeUploader
         }
     }
 
-    internal class AniRating
+    internal static class AniRating
     {
         public const string G = "G - All Ages";
         public const string PG = "PG - Children";
@@ -99,10 +97,22 @@ namespace AnimeUploader
         public const string X = "R+ - Mild Nudity";
     }
 
-    internal class AniAiring
+    internal static class AniAiring
     {
         public const string NotAired = "Not yet aired";
         public const string Airing = "Currently Airing";
         public const string Finished = "Finished Airing";
+    }
+
+    internal class UpdateAnime
+    {
+        public int ID { get; set; }
+        public int Status { get; set; }
+        public int Episodes { get; set; }
+        public string Aired { get; set; }
+        public string Duration { get; set; }
+        public int Rating { get; set; }
+        public string Sequel { get; set; }
+        public string Prequel { get; set; }
     }
 }
