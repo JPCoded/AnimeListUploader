@@ -14,16 +14,15 @@ namespace AnimeUploader
 
         public MyAnime GetMyAnimeById(int animeId)
         {
-            var ani = _connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
-                commandType: CommandType.StoredProcedure);
-            return ani.FirstOrDefault();
+           return _connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
+                commandType: CommandType.StoredProcedure).FirstOrDefault();
+            
         }
 
         public Anime GetAnimeById(int animeId)
         {
-            var ani = _connection.Query<Anime>("GetAnimeById", new { ID = animeId },
-                commandType: CommandType.StoredProcedure);
-            return ani.FirstOrDefault();
+            return _connection.Query<Anime>("GetAnimeById", new { ID = animeId },
+                commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public void UpdateAnime(int animeId, int score = -1, int watchedEpisodes = -1, int status = -1)
@@ -43,23 +42,26 @@ namespace AnimeUploader
             _connection.Execute("InsertAnime", anime, commandType: CommandType.StoredProcedure);
         }
 
-        public void UpdateAnimeList(UpdateAnime anime)
+        public void UpdateAnime(UpdateAnime anime)
         {
             _connection.Execute("UpdateAnime", anime, commandType: CommandType.StoredProcedure);
         }
 
    
 
-        public bool AnimeExists(int animeDb)
+        public bool AnimeExists(int animeDb,bool checkMyList)
         {
-            var list = _connection.Query<Anime>("Select ID from Anime where ID = " + animeDb).ToList();
-            return list.Count == 0;
-        }
-
-        public bool MyAnimeExists(int AnimeDB)
-        {
-            var list = _connection.Query<MyAnime>("Select ID from MyAnimeList where AnimeID = " + AnimeDB).ToList();
-            return list.Count == 0;
+            var doesExist = false;
+            if (checkMyList)
+            {var list = _connection.Query<MyAnime>("Select ID from MyAnimeList where AnimeID = " + animeDb).ToList();
+            doesExist = list.Count == 0;
+            }
+            else
+            {
+                var list = _connection.Query<Anime>("Select ID from Anime where ID = " + animeDb).ToList();
+               doesExist = list.Count == 0;
+            }
+            return doesExist;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace AnimeUploader
                 var title = anime.Element("series_title").Value.Replace("'", "''");
 
 
-                if (dbControl.AnimeExists(animeId))
+                if (dbControl.AnimeExists(animeId,false))
                 {
                     animeObject = getAnime.GetAnimeInfo(animeId);
                     animeObject.Title = title;
@@ -91,12 +91,12 @@ namespace AnimeUploader
                         {
                             txtResults.Text += "Episodes: " + oldAnime.Episodes + " -> " + updateAnime.Episodes + "\n";
                         }
-                        dbControl.UpdateAnimeList(updateAnime);
+                        dbControl.UpdateAnime(updateAnime);
                     }
                 }
 
 
-                if (dbControl.MyAnimeExists(animeId))
+                if (dbControl.AnimeExists(animeId,true))
                 {
                     myanimeObject.AnimeID = animeId;
                     myanimeObject.WatchedEpisodes = episodes;
