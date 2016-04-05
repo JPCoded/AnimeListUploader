@@ -21,6 +21,8 @@ namespace AnimeUploader
             var getAnime = new PageScraper();
             var animedoc = XElement.Load("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
             var animeElements = animedoc.Elements("anime");
+            txtResults.Text += "START: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
+                               "\n";
             foreach (var anime in animeElements)
             {
                 var myanimeObject = new MyAnime();
@@ -37,7 +39,7 @@ namespace AnimeUploader
                 {
                     animeObject = getAnime.GetAnimeInfo(animeId);
                     animeObject.Title = title;
-                    dbControl.InsertAnimeList(animeObject);
+                    dbControl.InsertAnime(animeObject);
                 }
                 else
                 {
@@ -63,31 +65,31 @@ namespace AnimeUploader
                         txtResults.Text += "\nAnimeID: " + animeId + "\n";
                         if (updateAnime.Status != -1)
                         {
-                            txtResults.Text += "Status: " + animeObject.Status + " -> " + updateAnime.Status + "\n";
+                            txtResults.Text += "Status: " + oldAnime.Status + " -> " + updateAnime.Status + "\n";
                         }
                         if (updateAnime.Aired != null)
                         {
-                            txtResults.Text += "Aired: " + animeObject.Aired + " -> " + updateAnime.Aired + "\n";
+                            txtResults.Text += "Aired: " + oldAnime.Aired + " -> " + updateAnime.Aired + "\n";
                         }
                         if (updateAnime.Duration != null)
                         {
-                            txtResults.Text += "Duration: " + animeObject.Duration + " -> " + updateAnime.Duration + "\n";
+                            txtResults.Text += "Duration: " + oldAnime.Duration + " -> " + updateAnime.Duration + "\n";
                         }
                         if (updateAnime.Rating != -1)
                         {
-                            txtResults.Text += "Rating: " + animeObject.Rating + " -> " + updateAnime.Rating + "\n";
+                            txtResults.Text += "Rating: " + oldAnime.Rating + " -> " + updateAnime.Rating + "\n";
                         }
                         if (updateAnime.Prequel != null)
                         {
-                            txtResults.Text += "Prequel: " + animeObject.Prequel + " -> " + updateAnime.Prequel + "\n";
+                            txtResults.Text += "Prequel: " + oldAnime.Prequel + " -> " + updateAnime.Prequel + "\n";
                         }
                         if (updateAnime.Sequel != null)
                         {
-                            txtResults.Text += "Sequel: " + animeObject.Sequel + " -> " + updateAnime.Sequel + "\n";
+                            txtResults.Text += "Sequel: " + oldAnime.Sequel + " -> " + updateAnime.Sequel + "\n";
                         }
                         if (updateAnime.Episodes != -1)
                         {
-                            txtResults.Text += "Episodes: " + animeObject.Episodes + " -> " + updateAnime.Episodes + "\n";
+                            txtResults.Text += "Episodes: " + oldAnime.Episodes + " -> " + updateAnime.Episodes + "\n";
                         }
                         dbControl.UpdateAnimeList(updateAnime);
                     }
@@ -100,7 +102,7 @@ namespace AnimeUploader
                     myanimeObject.WatchedEpisodes = episodes;
                     myanimeObject.Score = score;
                     myanimeObject.Status = status;
-                    dbControl.InsertMyAnimeList(myanimeObject);
+                    dbControl.InsertAnime(myanimeObject);
                 }
                 else
                 {
@@ -109,11 +111,12 @@ namespace AnimeUploader
                     //change to just update specific items
                     if (Convert.ToInt32(myanime.Status) != myanime.GetStatus(status) ||
                         score != Convert.ToInt32(myanime.Score) || episodes != Convert.ToInt32(myanime.WatchedEpisodes))
-                        dbControl.UpdateMyAnimeList(animeId, score, episodes, myStatus);
+                        dbControl.UpdateAnime(animeId, score, episodes, myStatus);
                 }
             }
 
-            txtResults.Text += "DONE";
+            txtResults.Text += "DONE: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
+                               "\n"; ;
         }
     }
 }

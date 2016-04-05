@@ -1,6 +1,6 @@
 ﻿namespace AnimeUploader
 {
-    internal class Anime
+    public class Anime
     {
         public int ID { get; set; }
         public string Title { get; set; }
@@ -104,7 +104,7 @@
         public const string Finished = "Finished Airing";
     }
 
-    internal class UpdateAnime
+    public class UpdateAnime
     {
         public int ID { get; set; }
         public int Status { get; set; }

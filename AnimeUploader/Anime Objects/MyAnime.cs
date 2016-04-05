@@ -1,6 +1,6 @@
 ﻿namespace AnimeUploader
 {
-    internal class MyAnime
+    public class MyAnime
     {
         public int ID { get; set; }
         public string Status { get; set; }
