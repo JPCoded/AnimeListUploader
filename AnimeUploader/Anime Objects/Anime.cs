@@ -13,7 +13,7 @@
         public string Description { get; set; }
         public string Sequel { get; set; }
         public string Prequel { get; set; }
-      //  public string[] Genres { get; set; }
+        public string Genre { get; set; }
 
         public static int GetRating(string rating)
         {

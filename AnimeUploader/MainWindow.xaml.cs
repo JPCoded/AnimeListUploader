@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 using System.Xml.Linq;
 
@@ -18,9 +20,8 @@ namespace AnimeUploader
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             var dbControl = new DatabaseControl();
-            var getAnime = new PageScraper();
-            var animedoc = XElement.Load("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
-            var animeElements = animedoc.Elements("anime");
+            var animeElements = getElements("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
+           
             txtResults.Text += "START: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
                                "\n";
             foreach (var anime in animeElements)
@@ -35,15 +36,16 @@ namespace AnimeUploader
                 var title = anime.Element("series_title").Value.Replace("'", "''");
 
 
-                if (dbControl.AnimeExists(animeId,false))
+                if (dbControl.AnimeExists(animeId, false))
                 {
-                    animeObject = getAnime.GetAnimeInfo(animeId);
+                    animeObject = PageScraper.GetAnimeInfo(animeId);
                     animeObject.Title = title;
+                    dbControl.InsertGenre(animeId,animeObject.Genre);
                     dbControl.InsertAnime(animeObject);
                 }
                 else
                 {
-                    animeObject = getAnime.GetAnimeInfo(animeId);
+                    animeObject = PageScraper.GetAnimeInfo(animeId);
                     var oldAnime = dbControl.GetAnimeById(animeId);
                     var updateAnime = new UpdateAnime
                     {
@@ -61,7 +63,6 @@ namespace AnimeUploader
                         updateAnime.Rating != null ||
                         updateAnime.Prequel != null || updateAnime.Sequel != null || updateAnime.Episodes != null)
                     {
-
                         txtResults.Text += "\nAnimeID: " + animeId + "\n";
                         if (updateAnime.Status != null)
                         {
@@ -96,7 +97,7 @@ namespace AnimeUploader
                 }
 
 
-                if (dbControl.AnimeExists(animeId,true))
+                if (dbControl.AnimeExists(animeId, true))
                 {
                     myanimeObject.AnimeID = animeId;
                     myanimeObject.WatchedEpisodes = episodes;
@@ -116,7 +117,14 @@ namespace AnimeUploader
             }
 
             txtResults.Text += "DONE: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
-                               "\n"; ;
+                               "\n";
+            ;
+        }
+
+        private IEnumerable<XElement> getElements(string url)
+        {
+            var animedoc = XElement.Load(url);
+            return animedoc.Elements("anime");
         }
     }
 }

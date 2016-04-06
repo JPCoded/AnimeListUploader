@@ -48,6 +48,16 @@ namespace AnimeUploader
             _connection.Execute("UpdateAnime", anime, commandType: CommandType.StoredProcedure);
         }
 
+        public void InsertGenre(int AnimeId, string genres)
+        {
+            var genre = genres.Split(',');
+            foreach (var g in genre)
+            {
+                _connection.Execute("InsertGenre", new {AnimeID = AnimeId, Genre = g},
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+
         public bool AnimeExists(int animeDb, bool checkMyList)
         {
             var doesExist = false;
