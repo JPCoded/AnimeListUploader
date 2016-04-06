@@ -2,8 +2,10 @@
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
+
 //CONVERT TO ASYNC
 //change to read both tables at once if needed to reduce number of calls to database.
+
 namespace AnimeUploader
 {
     internal class DatabaseControl
@@ -14,14 +16,13 @@ namespace AnimeUploader
 
         public MyAnime GetMyAnimeById(int animeId)
         {
-           return _connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
+            return _connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
                 commandType: CommandType.StoredProcedure).FirstOrDefault();
-            
         }
 
         public Anime GetAnimeById(int animeId)
         {
-            return _connection.Query<Anime>("GetAnimeById", new { ID = animeId },
+            return _connection.Query<Anime>("GetAnimeById", new {ID = animeId},
                 commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
@@ -47,19 +48,18 @@ namespace AnimeUploader
             _connection.Execute("UpdateAnime", anime, commandType: CommandType.StoredProcedure);
         }
 
-   
-
-        public bool AnimeExists(int animeDb,bool checkMyList)
+        public bool AnimeExists(int animeDb, bool checkMyList)
         {
             var doesExist = false;
             if (checkMyList)
-            {var list = _connection.Query<MyAnime>("Select ID from MyAnimeList where AnimeID = " + animeDb).ToList();
-            doesExist = list.Count == 0;
+            {
+                var list = _connection.Query<MyAnime>("Select ID from MyAnimeList where AnimeID = " + animeDb).ToList();
+                doesExist = list.Count == 0;
             }
             else
             {
                 var list = _connection.Query<Anime>("Select ID from Anime where ID = " + animeDb).ToList();
-               doesExist = list.Count == 0;
+                doesExist = list.Count == 0;
             }
             return doesExist;
         }

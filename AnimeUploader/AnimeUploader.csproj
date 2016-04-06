@@ -65,6 +65,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Anime Objects\Anime.cs" />
+    <Compile Include="Anime Objects\UpdateAnime.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

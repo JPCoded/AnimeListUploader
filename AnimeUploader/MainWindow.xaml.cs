@@ -48,22 +48,22 @@ namespace AnimeUploader
                     var updateAnime = new UpdateAnime
                     {
                         Aired = animeObject.Aired == oldAnime.Aired ? null : animeObject.Aired,
-                        Episodes = animeObject.Episodes == oldAnime.Episodes ? -1 : animeObject.Episodes,
-                        Status = animeObject.Status == oldAnime.Status ? -1 : animeObject.Status,
+                        Episodes = animeObject.Episodes == oldAnime.Episodes ? null : animeObject.Episodes,
+                        Status = animeObject.Status == oldAnime.Status ? null : animeObject.Status,
                         Duration = animeObject.Duration == oldAnime.Duration ? null : animeObject.Duration,
-                        Rating = animeObject.Rating == oldAnime.Rating ? -1 : animeObject.Rating,
+                        Rating = animeObject.Rating == oldAnime.Rating ? null : animeObject.Rating,
                         Prequel = animeObject.Prequel == oldAnime.Prequel ? null : animeObject.Prequel,
                         Sequel = animeObject.Sequel == oldAnime.Sequel ? null : animeObject.Sequel,
                         ID = animeId
                     };
 
-                    if (updateAnime.Status != -1 || updateAnime.Aired != null || updateAnime.Duration != null ||
-                        updateAnime.Rating != -1 ||
-                        updateAnime.Prequel != null || updateAnime.Sequel != null || updateAnime.Episodes != -1)
+                    if (updateAnime.Status != null || updateAnime.Aired != null || updateAnime.Duration != null ||
+                        updateAnime.Rating != null ||
+                        updateAnime.Prequel != null || updateAnime.Sequel != null || updateAnime.Episodes != null)
                     {
 
                         txtResults.Text += "\nAnimeID: " + animeId + "\n";
-                        if (updateAnime.Status != -1)
+                        if (updateAnime.Status != null)
                         {
                             txtResults.Text += "Status: " + oldAnime.Status + " -> " + updateAnime.Status + "\n";
                         }
@@ -75,7 +75,7 @@ namespace AnimeUploader
                         {
                             txtResults.Text += "Duration: " + oldAnime.Duration + " -> " + updateAnime.Duration + "\n";
                         }
-                        if (updateAnime.Rating != -1)
+                        if (updateAnime.Rating != null)
                         {
                             txtResults.Text += "Rating: " + oldAnime.Rating + " -> " + updateAnime.Rating + "\n";
                         }
@@ -87,7 +87,7 @@ namespace AnimeUploader
                         {
                             txtResults.Text += "Sequel: " + oldAnime.Sequel + " -> " + updateAnime.Sequel + "\n";
                         }
-                        if (updateAnime.Episodes != -1)
+                        if (updateAnime.Episodes != null)
                         {
                             txtResults.Text += "Episodes: " + oldAnime.Episodes + " -> " + updateAnime.Episodes + "\n";
                         }
