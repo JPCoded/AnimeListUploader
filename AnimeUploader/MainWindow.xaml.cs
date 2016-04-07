@@ -118,13 +118,70 @@ namespace AnimeUploader
 
             txtResults.Text += "DONE: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
                                "\n";
-            ;
+            
         }
+
 
         private IEnumerable<XElement> getElements(string url)
         {
             var animedoc = XElement.Load(url);
             return animedoc.Elements("anime");
+        }
+
+        private void AnimeFun()
+        { }
+
+        private void MyAnimeFun()
+        {
+            var dbControl = new DatabaseControl();
+            var animeElements = getElements("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
+
+            txtResults.Text += "START: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
+                               "\n";
+            foreach (var anime in animeElements)
+            {
+                var myanimeObject = new MyAnime();
+
+                var status = anime.Element("my_status").Value;
+                var episodes = Convert.ToInt32(anime.Element("my_watched_episodes").Value);
+                var score = Convert.ToInt32(anime.Element("my_score").Value);
+                var animeId = Convert.ToInt32(anime.Element("series_animedb_id").Value);
+                var title = anime.Element("series_title").Value.Replace("'", "''");
+
+                if (dbControl.AnimeExists(animeId, true))
+                {
+                    myanimeObject.AnimeID = animeId;
+                    myanimeObject.WatchedEpisodes = episodes;
+                    myanimeObject.Score = score;
+                    myanimeObject.Status = status;
+                    
+                    dbControl.InsertAnime(myanimeObject);
+                }
+                else
+                {
+                    var myanime = dbControl.GetMyAnimeById(animeId);
+                    var myStatus = myanime.GetStatus(status);
+                    //change to just update specific items
+                    if (Convert.ToInt32(myanime.Status) != myanime.GetStatus(status) ||
+                        score != Convert.ToInt32(myanime.Score) || episodes != Convert.ToInt32(myanime.WatchedEpisodes))
+                    {
+                        dbControl.UpdateAnime(animeId, score, episodes, myStatus);
+                    }
+                }
+            }
+
+            txtResults.Text += "DONE: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
+                               "\n";
+        }
+
+        private void btnUpdateMyAnime_Click(object sender, RoutedEventArgs e)
+        {
+            MyAnimeFun();
+        }
+
+        private void btnUpdateAnime_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

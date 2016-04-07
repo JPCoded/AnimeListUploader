@@ -2,6 +2,7 @@
 {
     public class Anime
     {
+
         public int ID { get; set; }
         public string Title { get; set; }
         public int? Type { get; set; }
@@ -17,17 +18,17 @@
 
         public static int GetRating(string rating)
         {
-            var ratingNumber = 0;
+            int ratingNumber;
 
             switch (rating)
             {
                 case AniRating.G:
                     ratingNumber = 1;
                     break;
-                case AniRating.PG:
+                case AniRating.Pg:
                     ratingNumber = 2;
                     break;
-                case AniRating.PG13:
+                case AniRating.Pg13:
                     ratingNumber = 3;
                     break;
                 case AniRating.R:
@@ -91,8 +92,8 @@
     internal static class AniRating
     {
         public const string G = "G - All Ages";
-        public const string PG = "PG - Children";
-        public const string PG13 = "PG-13 - Teens 13 or older";
+        public const string Pg = "PG - Children";
+        public const string Pg13 = "PG-13 - Teens 13 or older";
         public const string R = "R - 17+ (violence &amp; profanity)";
         public const string X = "R+ - Mild Nudity";
     }
