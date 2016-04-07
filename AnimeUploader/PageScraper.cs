@@ -17,11 +17,11 @@ namespace AnimeUploader
             var aired = document.DocumentNode.SelectSingleNode("//*[text()='Aired:']/parent::div").InnerText.Replace("Aired:", "").Trim();
             var duration = document.DocumentNode.SelectSingleNode("//*[text()='Duration:']/parent::div").InnerText.Replace("Duration:", "").Trim();
             var rating = document.DocumentNode.SelectSingleNode("//*[text()='Rating:']/parent::div").InnerText.Replace("Rating:", "").Trim();
-            var synopsis = document.DocumentNode.SelectSingleNode("//span[@itemprop='description']").InnerText.Replace("'", "''").Trim();
+            var synopsis = document.DocumentNode.SelectSingleNode("//meta[@property='og:description']").GetAttributeValue("content","").Replace("'", "''").Trim();
             var genres = document.DocumentNode.SelectSingleNode("//*[text()='Genres:']/parent::div").InnerText.Replace("Genres:", "").Replace(", ", ",").Trim();
             var prequel = document.DocumentNode.SelectSingleNode("//*[text()='Prequel:']/parent::tr");
             var sequel = document.DocumentNode.SelectSingleNode("//*[text()='Sequel:']/parent::tr");
-
+            var title = document.DocumentNode.SelectSingleNode("//meta[@property='og:title']").GetAttributeValue("content", "").Replace("'", "''").Trim();
 
             var newPrequel = "";
             var newSequel = "";
@@ -55,6 +55,7 @@ namespace AnimeUploader
             anime.Prequel = newPrequel;
             anime.Sequel = newSequel;
             anime.Genre = genres;
+            anime.Title = title;
 
             return anime;
         }

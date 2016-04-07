@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Xml.Linq;
@@ -20,9 +19,9 @@ namespace AnimeUploader
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             var dbControl = new DatabaseControl();
-            var animeElements = getElements("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
-           
-            txtResults.Text += "START: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
+            var animeElements = GetElements("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
+
+            txtResults.Text += "START: " + GetTime() +
                                "\n";
             foreach (var anime in animeElements)
             {
@@ -33,14 +32,14 @@ namespace AnimeUploader
                 var episodes = Convert.ToInt32(anime.Element("my_watched_episodes").Value);
                 var score = Convert.ToInt32(anime.Element("my_score").Value);
                 var animeId = Convert.ToInt32(anime.Element("series_animedb_id").Value);
-                var title = anime.Element("series_title").Value.Replace("'", "''");
+            
 
 
                 if (dbControl.AnimeExists(animeId, false))
                 {
                     animeObject = PageScraper.GetAnimeInfo(animeId);
-                    animeObject.Title = title;
-                    dbControl.InsertGenre(animeId,animeObject.Genre);
+           
+                    dbControl.InsertGenre(animeId, animeObject.Genre);
                     dbControl.InsertAnime(animeObject);
                 }
                 else
@@ -116,28 +115,25 @@ namespace AnimeUploader
                 }
             }
 
-            txtResults.Text += "DONE: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
+            txtResults.Text += "DONE: " + GetTime() +
                                "\n";
-            
         }
 
-
-        private IEnumerable<XElement> getElements(string url)
+        private static IEnumerable<XElement> GetElements(string url)
         {
             var animedoc = XElement.Load(url);
             return animedoc.Elements("anime");
         }
 
         private void AnimeFun()
-        { }
+        {
+        }
 
-        private void MyAnimeFun()
+        private void MyAnimeFun(IEnumerable<XElement> animeElements)
         {
             var dbControl = new DatabaseControl();
-            var animeElements = getElements("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
 
-            txtResults.Text += "START: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
-                               "\n";
+            txtResults.Text += "START: " + GetTime() + "\n";
             foreach (var anime in animeElements)
             {
                 var myanimeObject = new MyAnime();
@@ -146,7 +142,6 @@ namespace AnimeUploader
                 var episodes = Convert.ToInt32(anime.Element("my_watched_episodes").Value);
                 var score = Convert.ToInt32(anime.Element("my_score").Value);
                 var animeId = Convert.ToInt32(anime.Element("series_animedb_id").Value);
-                var title = anime.Element("series_title").Value.Replace("'", "''");
 
                 if (dbControl.AnimeExists(animeId, true))
                 {
@@ -154,7 +149,7 @@ namespace AnimeUploader
                     myanimeObject.WatchedEpisodes = episodes;
                     myanimeObject.Score = score;
                     myanimeObject.Status = status;
-                    
+
                     dbControl.InsertAnime(myanimeObject);
                 }
                 else
@@ -170,18 +165,22 @@ namespace AnimeUploader
                 }
             }
 
-            txtResults.Text += "DONE: " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second +
-                               "\n";
+            txtResults.Text += "DONE: " + GetTime() + "\n";
         }
 
         private void btnUpdateMyAnime_Click(object sender, RoutedEventArgs e)
         {
-            MyAnimeFun();
+            var animeElements = GetElements("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
+            MyAnimeFun(animeElements);
         }
 
         private void btnUpdateAnime_Click(object sender, RoutedEventArgs e)
         {
+        }
 
+        private static string GetTime()
+        {
+            return string.Format("{0}:{1}:{2}", DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         }
     }
 }
