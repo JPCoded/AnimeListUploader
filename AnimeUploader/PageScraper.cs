@@ -19,15 +19,20 @@ namespace AnimeUploader
             var rating = document.DocumentNode.SelectSingleNode("//*[text()='Rating:']/parent::div").InnerText.Replace("Rating:", "").Trim();
             var synopsis = document.DocumentNode.SelectSingleNode("//meta[@property='og:description']").GetAttributeValue("content","").Replace("'", "''").Trim();
             var genres = document.DocumentNode.SelectSingleNode("//*[text()='Genres:']/parent::div").InnerText.Replace("Genres:", "").Replace(", ", ",").Trim();
+            var prequelId = document.DocumentNode.SelectSingleNode("//*[text()='Prequel:']/parent::tr/descendant::a");
             var prequel = document.DocumentNode.SelectSingleNode("//*[text()='Prequel:']/parent::tr");
+            var sequelId = document.DocumentNode.SelectSingleNode("//*[text()='Sequel:']/parent::tr/descendant::a");
             var sequel = document.DocumentNode.SelectSingleNode("//*[text()='Sequel:']/parent::tr");
             var title = document.DocumentNode.SelectSingleNode("//meta[@property='og:title']").GetAttributeValue("content", "").Replace("'", "''").Trim();
 
+            string[] newPrequelId = null;
             var newPrequel = "";
+            string[] newSequelId = null;
             var newSequel = "";
             //Try catch for these two as these are the only things that might or might not exist.
             try
             {
+                newPrequelId = prequelId.GetAttributeValue("href", "").Split('/');
                 newPrequel = prequel.InnerText.Replace("Prequel:", "").Trim().Replace("'", "''");
             }
             catch (Exception)
@@ -37,6 +42,7 @@ namespace AnimeUploader
 
             try
             {
+                newSequelId = sequelId.GetAttributeValue("href", "").Split('/');
                 newSequel = sequel.InnerText.Replace("Sequel:", "").Trim().Replace("'", "''");
             }
             catch (Exception)
@@ -52,7 +58,9 @@ namespace AnimeUploader
             anime.Aired = aired;
             anime.Description = synopsis;
             anime.Status = Anime.GetStatus(status);
+            anime.PrequelID = newPrequelId == null ? 0 : Convert.ToInt32(newPrequelId[2]);
             anime.Prequel = newPrequel;
+            anime.SequelID = newSequelId == null ? 0 : Convert.ToInt32(newSequelId[2]);
             anime.Sequel = newSequel;
             anime.Genre = genres;
             anime.Title = title;

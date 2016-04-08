@@ -12,7 +12,9 @@
         public string Duration { get; set; }
         public int? Rating { get; set; }
         public string Description { get; set; }
+        public int? SequelID { get; set; }
         public string Sequel { get; set; }
+        public int? PrequelID { get; set; }
         public string Prequel { get; set; }
         public string Genre { get; set; }
 
