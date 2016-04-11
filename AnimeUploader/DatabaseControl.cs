@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
@@ -14,6 +15,13 @@ namespace AnimeUploader
             new SqlConnection(
                 "Data Source=DESKTOP-AQTJ6NL\\ANIMELIST;Initial Catalog=MyAnimeList;Integrated Security=True");
 
+        public bool GenreExist(int animeId, int genreId)
+        {
+            var genre = _connection.Query("GetGenreByGenreId", new {AnimeId = animeId, GenreId = genreId},
+                commandType: CommandType.StoredProcedure);
+            return !genre.Any();
+           
+        }
         public MyAnime GetMyAnimeById(int animeId)
         {
             return _connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
@@ -58,6 +66,10 @@ namespace AnimeUploader
             }
         }
 
+        public List<dynamic> GetAllMyListId()
+        {
+           return _connection.Query("Select AnimeId from MyAnimeList").ToList();
+        }
         public bool AnimeExists(int animeDb, bool checkMyList)
         {
             bool doesExist;
