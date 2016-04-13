@@ -11,6 +11,7 @@ namespace AnimeUploader
 {
     internal class DatabaseControl
     {
+        //move to own settings file
         private readonly SqlConnection _connection =
             new SqlConnection(
                 "Data Source=DESKTOP-AQTJ6NL\\ANIMELIST;Initial Catalog=MyAnimeList;Integrated Security=True");
@@ -22,10 +23,16 @@ namespace AnimeUploader
             return !genre.Any();
            
         }
+
         public MyAnime GetMyAnimeById(int animeId)
         {
             return _connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
                 commandType: CommandType.StoredProcedure).FirstOrDefault();
+        }
+
+        public IEnumerable<Anime> GetAnime()
+        {
+            return _connection.Query<Anime>("select * from Anime").ToList();
         }
 
         public Anime GetAnimeById(int animeId)
@@ -66,10 +73,11 @@ namespace AnimeUploader
             }
         }
 
-        public List<dynamic> GetAllMyListId()
+        public List<GetAnime> GetAllMyListId()
         {
-           return _connection.Query("Select AnimeId from MyAnimeList").ToList();
+           return _connection.Query<GetAnime>("Select AnimeId from MyAnimeList").ToList();
         }
+
         public bool AnimeExists(int animeDb, bool checkMyList)
         {
             bool doesExist;
@@ -85,5 +93,6 @@ namespace AnimeUploader
             }
             return doesExist;
         }
+
     }
 }

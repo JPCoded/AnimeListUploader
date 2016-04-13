@@ -33,4 +33,10 @@
             return returnValue;
         }
     }
+
+    public class GetAnime
+    {
+        
+        public int AnimeID { get; set; }
+    }
 }

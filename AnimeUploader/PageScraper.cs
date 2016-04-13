@@ -70,6 +70,7 @@ namespace AnimeUploader
 
         private static HtmlDocument GetPage(int idToFetch)
         {
+            
             var getHtmlWeb = new HtmlWeb();
             return getHtmlWeb.Load(string.Format("http://myanimelist.net/anime/{0}", idToFetch));
         }
