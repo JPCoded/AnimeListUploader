@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
-using HtmlAgilityPack;
 
 namespace AnimeUploader
 {
@@ -75,7 +70,6 @@ namespace AnimeUploader
                 var animeObject = PageScraper.GetAnimeInfo(animeId);
                 if (dbControl.AnimeExists(animeId, false))
                 {
-                  
                     dbControl.InsertGenre(animeId, animeObject.Genre);
                     dbControl.InsertAnime(animeObject);
                     if (animeObject.SequelID != 0)
@@ -97,7 +91,6 @@ namespace AnimeUploader
                 }
                 else
                 {
-                
                     var oldAnime = dbControl.GetAnimeById(animeId);
                     var updateAnime = new UpdateAnime
                     {
@@ -164,7 +157,7 @@ namespace AnimeUploader
                 var episodes = Convert.ToInt32(anime.Element("my_watched_episodes").Value);
                 var score = Convert.ToInt32(anime.Element("my_score").Value);
                 var animeId = Convert.ToInt32(anime.Element("series_animedb_id").Value);
-              animeDbId.Add(animeId);
+                animeDbId.Add(animeId);
 
                 if (dbControl.AnimeExists(animeId, true))
                 {
@@ -212,18 +205,15 @@ namespace AnimeUploader
             {
                 urllist.Add(string.Format("http://myanimelist.net/anime/{0}", id.ID));
             }
-            
+
             RunAnime(urllist);
- 
         }
 
-        private void RunAnime(IList<string> animeList )
+        private void RunAnime(IList<string> animeList)
         {
             var check = new UrlChecker();
             check.Check(animeList);
             var failedList = new List<int>();
-          
-            
         }
 
         private static string GetTime()

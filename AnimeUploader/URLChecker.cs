@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace AnimeUploader
 {
-    class UrlChecker
+    class UrlChecker : IDisposable
     {
         private const int ThreadCount = 2;
         private CountdownEvent _countdownEvent;
         private SemaphoreSlim _throttler;
 
+        public void Dispose()
+        {
+            _countdownEvent.Dispose();
+            _throttler.Dispose();
+        }
+
         public void Check(IList<string> urls)
         {
+            
             _countdownEvent = new CountdownEvent(urls.Count);
             _throttler = new SemaphoreSlim(ThreadCount);
-
+            
             Task.Run( // prevent UI thread lock
                 async () => {
                                 foreach (var url in urls)
@@ -27,7 +32,7 @@ namespace AnimeUploader
                                     await _throttler.WaitAsync();
                                     ProccessUrl(url); // NOT await
                                 }
-                                //instead of await Task.WhenAll(allTasks);
+                               
                                 _countdownEvent.Wait();
                 });
         }
@@ -47,6 +52,10 @@ namespace AnimeUploader
             }
         }
 
-        private void ProccessResult(string page) {/*....*/}
+        private void ProccessResult(string page)
+        {
+            
+            /*....*/
+        }
     }
 }

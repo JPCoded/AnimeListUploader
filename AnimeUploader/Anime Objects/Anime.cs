@@ -1,4 +1,6 @@
-﻿namespace AnimeUploader
+﻿using System.Collections.Specialized;
+
+namespace AnimeUploader
 {
     public class Anime
     {
@@ -17,6 +19,15 @@
         public int? PrequelID { get; set; }
         public string Prequel { get; set; }
         public string Genre { get; set; }
+
+        public ListDictionary TypeListDictionary = new ListDictionary()
+        {
+            {"TV",1 },
+            {"OVA",2 },
+            {"ONA",3 },
+            {"Special",4 },
+            {"Movie",5 }
+        };
 
         public static int GetRating(string rating)
         {

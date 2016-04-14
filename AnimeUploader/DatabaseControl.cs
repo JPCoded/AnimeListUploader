@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -9,13 +10,17 @@ using Dapper;
 
 namespace AnimeUploader
 {
-    internal class DatabaseControl
+    internal class DatabaseControl : IDisposable
     {
         //move to own settings file
         private readonly SqlConnection _connection =
             new SqlConnection(
                 "Data Source=DESKTOP-AQTJ6NL\\ANIMELIST;Initial Catalog=MyAnimeList;Integrated Security=True");
 
+        public void Dispose()
+        {
+            _connection.Close();
+        }
         public bool GenreExist(int animeId, int genreId)
         {
             var genre = _connection.Query("GetGenreByGenreId", new {AnimeId = animeId, GenreId = genreId},
