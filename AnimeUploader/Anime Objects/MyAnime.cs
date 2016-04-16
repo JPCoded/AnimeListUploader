@@ -11,7 +11,7 @@
         public int GetStatus(string status)
         {
             var returnValue = 0;
-            switch (Status)
+            switch (status)
             {
                 case "Completed":
                 case "2":

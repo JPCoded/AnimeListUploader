@@ -21,6 +21,7 @@ namespace AnimeUploader
         {
             _connection.Close();
         }
+
         public bool GenreExist(int animeId, int genreId)
         {
             var genre = _connection.Query("GetGenreByGenreId", new {AnimeId = animeId, GenreId = genreId},
