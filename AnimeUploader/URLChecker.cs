@@ -12,7 +12,7 @@ namespace AnimeUploader
         private const int ThreadCount = 3;
         private CountdownEvent _countdownEvent;
         private SemaphoreSlim _throttler;
-        public List<Anime> AnimeLIst {get;set;} 
+        private List<Anime> AnimeList {get;set;} 
         
         public void Dispose()
         {
@@ -20,9 +20,9 @@ namespace AnimeUploader
             _throttler.Dispose();
         }
         //possibly convert to list of anime types
-        public void Check(IList<string> urls)
+        public List<Anime> Check(IList<string> urls)
         {
-          AnimeLIst = new List<Anime>();
+          AnimeList = new List<Anime>();
             _countdownEvent = new CountdownEvent(urls.Count);
             _throttler = new SemaphoreSlim(ThreadCount);
             
@@ -37,7 +37,8 @@ namespace AnimeUploader
                                
                                 _countdownEvent.Wait();
                 });
-         
+            return AnimeList;
+
         }
 
         private async void ProccessUrl(string url)
@@ -116,7 +117,7 @@ namespace AnimeUploader
             anime.Genre = genres;
             anime.Title = title;
 
-            AnimeLIst.Add(anime);
+            AnimeList.Add(anime);
            
         }
     }

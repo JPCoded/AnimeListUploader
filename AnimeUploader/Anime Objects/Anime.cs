@@ -1,10 +1,8 @@
-﻿using System.Collections.Specialized;
-
+﻿using System.Collections.Generic;
 namespace AnimeUploader
 {
     public class Anime
     {
-
         public int ID { get; set; }
         public string Title { get; set; }
         public int? Type { get; set; }
@@ -20,7 +18,7 @@ namespace AnimeUploader
         public string Prequel { get; set; }
         public string Genre { get; set; }
 
-        public ListDictionary TypeListDictionary = new ListDictionary()
+        private static readonly Dictionary<string,int> TypeDictionary = new Dictionary<string,int>()
         {
             {"TV",1 },
             {"OVA",2 },
@@ -59,27 +57,7 @@ namespace AnimeUploader
 
         public static int GetType(string type)
         {
-            var typeNumber = 0;
-
-            switch (type)
-            {
-                case "TV":
-                    typeNumber = 1;
-                    break;
-                case "OVA":
-                    typeNumber = 2;
-                    break;
-                case "ONA":
-                    typeNumber = 3;
-                    break;
-                case "Special":
-                    typeNumber = 4;
-                    break;
-                case "Movie":
-                    typeNumber = 5;
-                    break;
-            }
-            return typeNumber;
+           return TypeDictionary[type];
         }
 
         public static int GetStatus(string status)

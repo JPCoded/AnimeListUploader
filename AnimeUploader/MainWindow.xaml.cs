@@ -4,12 +4,13 @@ using System.Linq;
 using System.Windows;
 using System.Xml.Linq;
 
+//REFACTOR whole thing badly
 namespace AnimeUploader
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -165,7 +166,6 @@ namespace AnimeUploader
                     myanimeObject.WatchedEpisodes = episodes;
                     myanimeObject.Score = score;
                     myanimeObject.Status = status;
-
                     dbControl.InsertAnime(myanimeObject);
                 }
                 else
@@ -178,11 +178,6 @@ namespace AnimeUploader
                     {
                         dbControl.UpdateAnime(animeId, score, episodes, myStatus);
                     }
-                }
-                // var MyAnimeListIds = dbControl.GetAllMyListId();
-                foreach (var id in animeDbId)
-                {
-                    txtResults.Text += id + "\n";
                 }
             }
 
@@ -200,11 +195,7 @@ namespace AnimeUploader
             var dbcontrol = new DatabaseControl();
             var animes = dbcontrol.GetAnime();
             var anime = animes.ToList();
-            var urllist = new List<string>();
-            foreach (var id in anime)
-            {
-                urllist.Add(string.Format("http://myanimelist.net/anime/{0}", id.ID));
-            }
+            var urllist = anime.Select(id => string.Format("http://myanimelist.net/anime/{0}", id.ID)).ToList();
 
             RunAnime(urllist);
         }
@@ -212,7 +203,7 @@ namespace AnimeUploader
         private void RunAnime(IList<string> animeList)
         {
             var check = new UrlChecker();
-            check.Check(animeList);
+          var AnimeList =  check.Check(animeList);
             var failedList = new List<int>();
         }
 
