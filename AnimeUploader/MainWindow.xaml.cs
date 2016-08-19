@@ -21,7 +21,7 @@ namespace AnimeUploader
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             var dbControl = new DatabaseControl();
-            dbControl.PopulateConnection();
+            
             var animeElements = GetElements("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
 
             txtResults.Text += "START: " + GetTime() + "\n";
@@ -149,7 +149,7 @@ namespace AnimeUploader
         private void MyAnimeFun(IEnumerable<XElement> animeElements)
         {
             var dbControl = new DatabaseControl();
-            dbControl.PopulateConnection();
+           
             var animeDbId = new List<int>();
             txtResults.Text += "START: " + GetTime() + "\n";
             foreach (var anime in animeElements)
@@ -195,7 +195,7 @@ namespace AnimeUploader
         private void btnUpdateAnime_Click(object sender, RoutedEventArgs e)
         {
             var dbcontrol = new DatabaseControl();
-            dbcontrol.PopulateConnection();
+            
             var animes = dbcontrol.GetAnime();
             var anime = animes.ToList();
             var urllist = anime.Select(id => string.Format("http://myanimelist.net/anime/{0}", id.ID)).ToList();
@@ -206,7 +206,7 @@ namespace AnimeUploader
         private void RunAnime(IList<string> animeList)
         {
             var dbControl = new DatabaseControl();
-            dbControl.PopulateConnection();
+            
             var check = new UrlChecker();
           var AnimeList =  check.Check(animeList);
 

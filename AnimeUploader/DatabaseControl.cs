@@ -16,7 +16,7 @@ namespace AnimeUploader
     {
         private static List<Item> LoadJson()
         {
-            List<Item> items = new List<Item>();
+            var items = new List<Item>();
             using (var r = new StreamReader("DatabaseSettings.json"))
             {
                 var json = r.ReadToEnd();
@@ -36,26 +36,26 @@ namespace AnimeUploader
         }
 
  
-        //move to own settings file
-        private SqlConnection _connection;
-           
+      
+        private static readonly SqlConnection Connection;
 
-        public void PopulateConnection()
+        static DatabaseControl()
         {
             var json = LoadJson();
-           _connection = new SqlConnection("Data Source=" + json[0].DataSource + ";Initial Catalog=" + json[0].InitialCatalog + ";Integrated Security="+json[0].IntegratedSecurity);
-           
+            Connection = new SqlConnection("Data Source=" + json[0].DataSource + ";Initial Catalog=" + json[0].InitialCatalog + ";Integrated Security=" + json[0].IntegratedSecurity);
         }
+
+
 
         public void Dispose()
         {
             
-            _connection.Close();
+            Connection.Close();
         }
 
         public bool GenreExist(int animeId, int genreId)
         {
-            var genre = _connection.Query("GetGenreByGenreId", new {AnimeId = animeId, GenreId = genreId},
+            var genre = Connection.Query("GetGenreByGenreId", new {AnimeId = animeId, GenreId = genreId},
                 commandType: CommandType.StoredProcedure);
             return !genre.Any();
            
@@ -63,41 +63,41 @@ namespace AnimeUploader
 
         public MyAnime GetMyAnimeById(int animeId)
         {
-            return _connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
+            return Connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
                 commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public IEnumerable<Anime> GetAnime()
         {
-            return _connection.Query<Anime>("select * from Anime").ToList();
+            return Connection.Query<Anime>("select * from Anime").ToList();
         }
 
         public Anime GetAnimeById(int animeId)
         {
-            return _connection.Query<Anime>("GetAnimeById", new {ID = animeId},
+            return Connection.Query<Anime>("GetAnimeById", new {ID = animeId},
                 commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public void UpdateAnime(int animeId, int score = -1, int watchedEpisodes = -1, int status = -1)
         {
-            _connection.Execute("UpdateMyAnime",
+            Connection.Execute("UpdateMyAnime",
                 new {ID = animeId, Score = score, WatchedEpisodes = watchedEpisodes, Status = status},
                 commandType: CommandType.StoredProcedure);
         }
 
         public void InsertAnime(MyAnime myAnime)
         {
-            _connection.Execute("InsertMyAnime", myAnime, commandType: CommandType.StoredProcedure);
+            Connection.Execute("InsertMyAnime", myAnime, commandType: CommandType.StoredProcedure);
         }
 
         public void InsertAnime(Anime anime)
         {
-            _connection.Execute("InsertAnime", anime, commandType: CommandType.StoredProcedure);
+            Connection.Execute("InsertAnime", anime, commandType: CommandType.StoredProcedure);
         }
 
         public void UpdateAnime(UpdateAnime anime)
         {
-            _connection.Execute("UpdateAnime", anime, commandType: CommandType.StoredProcedure);
+            Connection.Execute("UpdateAnime", anime, commandType: CommandType.StoredProcedure);
         }
 
         public void InsertGenre(int animeId, string genres)
@@ -105,14 +105,14 @@ namespace AnimeUploader
             var genre = genres.Split(',');
             foreach (var g in genre)
             {
-                _connection.Execute("InsertGenre", new {AnimeID = animeId, Genre = g},
+                Connection.Execute("InsertGenre", new {AnimeID = animeId, Genre = g},
                     commandType: CommandType.StoredProcedure);
             }
         }
 
         public List<GetAnime> GetAllMyListId()
         {
-           return _connection.Query<GetAnime>("Select AnimeId from MyAnimeList").ToList();
+           return Connection.Query<GetAnime>("Select AnimeId from MyAnimeList").ToList();
         }
 
         public bool AnimeExists(int animeDb, bool checkMyList)
@@ -120,12 +120,12 @@ namespace AnimeUploader
             bool doesExist;
             if (checkMyList)
             {
-                var list = _connection.Query<MyAnime>("Select ID from MyAnimeList where AnimeID = " + animeDb).ToList();
+                var list = Connection.Query<MyAnime>("Select ID from MyAnimeList where AnimeID = " + animeDb).ToList();
                 doesExist = list.Count == 0;
             }
             else
             {
-                var list = _connection.Query<Anime>("Select ID from Anime where ID = " + animeDb).ToList();
+                var list = Connection.Query<Anime>("Select ID from Anime where ID = " + animeDb).ToList();
                 doesExist = list.Count == 0;
             }
             return doesExist;
