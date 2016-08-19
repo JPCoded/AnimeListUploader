@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using Dapper;
+using Newtonsoft.Json;
 
 //CONVERT TO ASYNC
 //change to read both tables at once if needed to reduce number of calls to database.
@@ -12,13 +14,42 @@ namespace AnimeUploader
 {
     internal class DatabaseControl : IDisposable
     {
+        private static List<Item> LoadJson()
+        {
+            List<Item> items = new List<Item>();
+            using (var r = new StreamReader("DatabaseSettings.json"))
+            {
+                var json = r.ReadToEnd();
+                items = JsonConvert.DeserializeObject<List<Item>>(json);
+            }
+            return items;
+            
+        }
+
+        private class Item
+        {
+            public string DataSource;
+            public string InitialCatalog;
+            public string IntegratedSecurity;
+
+
+        }
+
+ 
         //move to own settings file
-        private readonly SqlConnection _connection =
-            new SqlConnection(
-                "Data Source=DESKTOP-AQTJ6NL\\ANIMELIST;Initial Catalog=MyAnimeList;Integrated Security=True");
+        private SqlConnection _connection;
+           
+
+        public void PopulateConnection()
+        {
+            var json = LoadJson();
+           _connection = new SqlConnection("Data Source=" + json[0].DataSource + ";Initial Catalog=" + json[0].InitialCatalog + ";Integrated Security="+json[0].IntegratedSecurity);
+           
+        }
 
         public void Dispose()
         {
+            
             _connection.Close();
         }
 

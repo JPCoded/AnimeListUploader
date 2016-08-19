@@ -17,10 +17,11 @@ namespace AnimeUploader
             InitializeComponent();
         }
 
-//Need to refactor and create loop to get all prequels
+
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             var dbControl = new DatabaseControl();
+            dbControl.PopulateConnection();
             var animeElements = GetElements("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
 
             txtResults.Text += "START: " + GetTime() + "\n";
@@ -148,6 +149,7 @@ namespace AnimeUploader
         private void MyAnimeFun(IEnumerable<XElement> animeElements)
         {
             var dbControl = new DatabaseControl();
+            dbControl.PopulateConnection();
             var animeDbId = new List<int>();
             txtResults.Text += "START: " + GetTime() + "\n";
             foreach (var anime in animeElements)
@@ -193,6 +195,7 @@ namespace AnimeUploader
         private void btnUpdateAnime_Click(object sender, RoutedEventArgs e)
         {
             var dbcontrol = new DatabaseControl();
+            dbcontrol.PopulateConnection();
             var animes = dbcontrol.GetAnime();
             var anime = animes.ToList();
             var urllist = anime.Select(id => string.Format("http://myanimelist.net/anime/{0}", id.ID)).ToList();
@@ -202,9 +205,69 @@ namespace AnimeUploader
 
         private void RunAnime(IList<string> animeList)
         {
+            var dbControl = new DatabaseControl();
+            dbControl.PopulateConnection();
             var check = new UrlChecker();
           var AnimeList =  check.Check(animeList);
-            var failedList = new List<int>();
+
+            foreach (var anime in AnimeList)
+            {
+                if (dbControl.AnimeExists(anime.ID, false))
+                {
+                    dbControl.InsertGenre(anime.ID, anime.Genre);
+                    dbControl.InsertAnime(anime);
+                }
+                else
+                {
+                    var oldAnime = dbControl.GetAnimeById(anime.ID);
+                    var updateAnime = new UpdateAnime
+                    {
+                        Aired = anime.Aired == oldAnime.Aired ? null : anime.Aired,
+                        Episodes = anime.Episodes == oldAnime.Episodes ? null : anime.Episodes,
+                        Status = anime.Status == oldAnime.Status ? null : anime.Status,
+                        Duration = anime.Duration == oldAnime.Duration ? null : anime.Duration,
+                        Rating = anime.Rating == oldAnime.Rating ? null : anime.Rating,
+                        Prequel = anime.Prequel == oldAnime.Prequel ? null : anime.Prequel,
+                        Sequel = anime.Sequel == oldAnime.Sequel ? null : anime.Sequel,
+                        ID = anime.ID
+                    };
+                    if (updateAnime.Status != null || updateAnime.Aired != null || updateAnime.Duration != null ||
+                        updateAnime.Rating != null || updateAnime.Prequel != null || updateAnime.Sequel != null ||
+                        updateAnime.Episodes != null)
+                    {
+                        txtResults.Text += "\nAnimeID: " + anime.ID + "\n";
+                        if (updateAnime.Status != null)
+                        {
+                            txtResults.Text += "Status: " + oldAnime.Status + " -> " + updateAnime.Status + "\n";
+                        }
+                        if (updateAnime.Aired != null)
+                        {
+                            txtResults.Text += "Aired: " + oldAnime.Aired + " -> " + updateAnime.Aired + "\n";
+                        }
+                        if (updateAnime.Duration != null)
+                        {
+                            txtResults.Text += "Duration: " + oldAnime.Duration + " -> " + updateAnime.Duration + "\n";
+                        }
+                        if (updateAnime.Rating != null)
+                        {
+                            txtResults.Text += "Rating: " + oldAnime.Rating + " -> " + updateAnime.Rating + "\n";
+                        }
+                        if (updateAnime.Prequel != null)
+                        {
+                            txtResults.Text += "Prequel: " + oldAnime.Prequel + " -> " + updateAnime.Prequel + "\n";
+                        }
+                        if (updateAnime.Sequel != null)
+                        {
+                            txtResults.Text += "Sequel: " + oldAnime.Sequel + " -> " + updateAnime.Sequel + "\n";
+                        }
+                        if (updateAnime.Episodes != null)
+                        {
+                            txtResults.Text += "Episodes: " + oldAnime.Episodes + " -> " + updateAnime.Episodes + "\n";
+                        }
+                        dbControl.UpdateAnime(updateAnime);
+                    }
+                }
+            }
         }
 
         private static string GetTime()

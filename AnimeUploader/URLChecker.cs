@@ -46,8 +46,8 @@ namespace AnimeUploader
             try
             {
                 var page = await new WebClient().DownloadStringTaskAsync(new Uri(url));
-
-             ProccessResult(page);
+                var id = url.Split('/');
+             ProccessResult(page,id[2]);
             }
             finally
             {
@@ -57,7 +57,7 @@ namespace AnimeUploader
            
         }
 
-        private void ProccessResult(string page)
+        private void ProccessResult(string page, string id)
         {
             var anime = new Anime();
 
@@ -102,7 +102,7 @@ namespace AnimeUploader
                 // ignored
             }
 
-           // anime.ID = animeId;
+            anime.ID = Convert.ToInt32(id);
             anime.Rating = Anime.GetRating(rating);
             anime.Type = Anime.GetType(type);
             anime.Episodes = episode == "Unknown" ? 0 : Convert.ToInt32(episode);
