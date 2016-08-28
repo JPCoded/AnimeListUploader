@@ -14,6 +14,21 @@ namespace AnimeUploader
 {
     internal class DatabaseControl : IDisposable
     {
+        private static readonly SqlConnection Connection;
+
+        static DatabaseControl()
+        {
+            var json = LoadJson();
+            Connection =
+                new SqlConnection("Data Source=" + json[0].DataSource + ";Initial Catalog=" + json[0].InitialCatalog +
+                                  ";Integrated Security=" + json[0].IntegratedSecurity);
+        }
+
+        public void Dispose()
+        {
+            Connection.Close();
+        }
+
         private static List<Item> LoadJson()
         {
             var items = new List<Item>();
@@ -23,34 +38,6 @@ namespace AnimeUploader
                 items = JsonConvert.DeserializeObject<List<Item>>(json);
             }
             return items;
-            
-        }
-
-        private class Item
-        {
-            public string DataSource;
-            public string InitialCatalog;
-            public string IntegratedSecurity;
-
-
-        }
-
- 
-      
-        private static readonly SqlConnection Connection;
-
-        static DatabaseControl()
-        {
-            var json = LoadJson();
-            Connection = new SqlConnection("Data Source=" + json[0].DataSource + ";Initial Catalog=" + json[0].InitialCatalog + ";Integrated Security=" + json[0].IntegratedSecurity);
-        }
-
-
-
-        public void Dispose()
-        {
-            
-            Connection.Close();
         }
 
         public bool GenreExist(int animeId, int genreId)
@@ -58,7 +45,6 @@ namespace AnimeUploader
             var genre = Connection.Query("GetGenreByGenreId", new {AnimeId = animeId, GenreId = genreId},
                 commandType: CommandType.StoredProcedure);
             return !genre.Any();
-           
         }
 
         public MyAnime GetMyAnimeById(int animeId)
@@ -112,7 +98,7 @@ namespace AnimeUploader
 
         public List<GetAnime> GetAllMyListId()
         {
-           return Connection.Query<GetAnime>("Select AnimeId from MyAnimeList").ToList();
+            return Connection.Query<GetAnime>("Select AnimeId from MyAnimeList").ToList();
         }
 
         public bool AnimeExists(int animeDb, bool checkMyList)
@@ -131,5 +117,11 @@ namespace AnimeUploader
             return doesExist;
         }
 
+        private class Item
+        {
+            public string DataSource;
+            public string InitialCatalog;
+            public string IntegratedSecurity;
+        }
     }
 }

@@ -1,0 +1,18 @@
+﻿[
+  {
+    "Type": "//*[text()='Type:']/parent::div",
+    "Episode": "//*[text()='Episodes:']/parent::div",
+    "Status": "//*[text()='Status:']/parent::div",
+    "Aired": "//*[text()='Aired:']/parent::div",
+    "Duration": "//*[text()='Duration:']/parent::div",
+    "Rating": "//*[text()='Rating:']/parent::div",
+    "Synopsis": "//meta[@property='og:description']",
+    "Genres": "//*[text()='Genres:']/parent::div",
+    "PrequelId": "//*[text()='Prequel:']/parent::tr/descendant::a",
+    "Prequel": "//*[text()='Prequel:']/parent::tr",
+    "SequelId": "//*[text()='Sequel:']/parent::tr/descendant::a",
+    "Sequel": "//*[text()='Sequel:']/parent::tr",
+    "Title": "//meta[@property='og:title']"
+  }
+]
+
