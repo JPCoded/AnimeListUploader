@@ -20,7 +20,7 @@ namespace AnimeUploader
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            var dbControl = new DatabaseControl();
+           
             
             var animeElements = GetElements("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
 
@@ -34,24 +34,24 @@ namespace AnimeUploader
                 var score = Convert.ToInt32(anime.Element("my_score").Value);
                 var animeId = Convert.ToInt32(anime.Element("series_animedb_id").Value);
 
-                AnimeFunction(animeId, dbControl);
+                AnimeFunction(animeId);
 
-                if (dbControl.AnimeExists(animeId, true))
+                if (DatabaseControl.AnimeExists(animeId, true))
                 {
                     myanimeObject.AnimeID = animeId;
                     myanimeObject.WatchedEpisodes = episodes;
                     myanimeObject.Score = score;
                     myanimeObject.Status = status;
-                    dbControl.InsertAnime(myanimeObject);
+                    DatabaseControl.InsertAnime(myanimeObject);
                 }
                 else
                 {
-                    var myanime = dbControl.GetMyAnimeById(animeId);
+                    var myanime = DatabaseControl.GetMyAnimeById(animeId);
                     var myStatus = myanime.GetStatus(status);
                     //change to just update specific items
                     if (Convert.ToInt32(myanime.Status) != myanime.GetStatus(status) ||
                         score != Convert.ToInt32(myanime.Score) || episodes != Convert.ToInt32(myanime.WatchedEpisodes))
-                        dbControl.UpdateAnime(animeId, score, episodes, myStatus);
+                        DatabaseControl.UpdateAnime(animeId, score, episodes, myStatus);
                 }
             }
 
@@ -65,25 +65,25 @@ namespace AnimeUploader
             return animedoc.Elements("anime");
         }
 
-        private void AnimeFunction(int animeId, DatabaseControl dbControl)
+        private void AnimeFunction(int animeId)
         {
             while (true)
             {
                 var animeObject = PageScraper.GetAnimeInfo(animeId);
-                if (dbControl.AnimeExists(animeId, false))
+                if (DatabaseControl.AnimeExists(animeId, false))
                 {
-                    dbControl.InsertGenre(animeId, animeObject.Genre);
-                    dbControl.InsertAnime(animeObject);
+                    DatabaseControl.InsertGenre(animeId, animeObject.Genre);
+                    DatabaseControl.InsertAnime(animeObject);
                     if (animeObject.SequelID != 0)
                     {
-                        if (dbControl.AnimeExists((int) animeObject.SequelID, false))
+                        if (DatabaseControl.AnimeExists((int) animeObject.SequelID, false))
                         {
                             animeId = animeObject.SequelID.Value;
                             continue;
                         }
                         if (animeObject.PrequelID != 0)
                         {
-                            if (dbControl.AnimeExists((int) animeObject.PrequelID, false))
+                            if (DatabaseControl.AnimeExists((int) animeObject.PrequelID, false))
                             {
                                 animeId = animeObject.PrequelID.Value;
                                 continue;
@@ -93,7 +93,7 @@ namespace AnimeUploader
                 }
                 else
                 {
-                    var oldAnime = dbControl.GetAnimeById(animeId);
+                    var oldAnime = DatabaseControl.GetAnimeById(animeId);
                     var updateAnime = new UpdateAnime
                     {
                         Aired = animeObject.Aired == oldAnime.Aired ? null : animeObject.Aired,
@@ -139,7 +139,7 @@ namespace AnimeUploader
                         {
                             txtResults.Text += "Episodes: " + oldAnime.Episodes + " -> " + updateAnime.Episodes + "\n";
                         }
-                        dbControl.UpdateAnime(updateAnime);
+                        DatabaseControl.UpdateAnime(updateAnime);
                     }
                 }
                 break;
@@ -162,23 +162,23 @@ namespace AnimeUploader
                 var animeId = Convert.ToInt32(anime.Element("series_animedb_id").Value);
                 animeDbId.Add(animeId);
 
-                if (dbControl.AnimeExists(animeId, true))
+                if (DatabaseControl.AnimeExists(animeId, true))
                 {
                     myanimeObject.AnimeID = animeId;
                     myanimeObject.WatchedEpisodes = episodes;
                     myanimeObject.Score = score;
                     myanimeObject.Status = status;
-                    dbControl.InsertAnime(myanimeObject);
+                    DatabaseControl.InsertAnime(myanimeObject);
                 }
                 else
                 {
-                    var myanime = dbControl.GetMyAnimeById(animeId);
+                    var myanime = DatabaseControl.GetMyAnimeById(animeId);
                     var myStatus = myanime.GetStatus(status);
                     //change to just update specific items
                     if (Convert.ToInt32(myanime.Status) != myanime.GetStatus(status) ||
                         score != Convert.ToInt32(myanime.Score) || episodes != Convert.ToInt32(myanime.WatchedEpisodes))
                     {
-                        dbControl.UpdateAnime(animeId, score, episodes, myStatus);
+                        DatabaseControl.UpdateAnime(animeId, score, episodes, myStatus);
                     }
                 }
             }
@@ -212,14 +212,14 @@ namespace AnimeUploader
 
             foreach (var anime in AnimeList)
             {
-                if (dbControl.AnimeExists(anime.ID, false))
+                if (DatabaseControl.AnimeExists(anime.ID, false))
                 {
-                    dbControl.InsertGenre(anime.ID, anime.Genre);
-                    dbControl.InsertAnime(anime);
+                    DatabaseControl.InsertGenre(anime.ID, anime.Genre);
+                    DatabaseControl.InsertAnime(anime);
                 }
                 else
                 {
-                    var oldAnime = dbControl.GetAnimeById(anime.ID);
+                    var oldAnime = DatabaseControl.GetAnimeById(anime.ID);
                     var updateAnime = new UpdateAnime
                     {
                         Aired = anime.Aired == oldAnime.Aired ? null : anime.Aired,
@@ -264,7 +264,7 @@ namespace AnimeUploader
                         {
                             txtResults.Text += "Episodes: " + oldAnime.Episodes + " -> " + updateAnime.Episodes + "\n";
                         }
-                        dbControl.UpdateAnime(updateAnime);
+                        DatabaseControl.UpdateAnime(updateAnime);
                     }
                 }
             }

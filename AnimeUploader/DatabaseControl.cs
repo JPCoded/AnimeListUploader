@@ -47,7 +47,7 @@ namespace AnimeUploader
             return !genre.Any();
         }
 
-        public MyAnime GetMyAnimeById(int animeId)
+        public static MyAnime GetMyAnimeById(int animeId)
         {
             return Connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
                 commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -58,35 +58,35 @@ namespace AnimeUploader
             return Connection.Query<Anime>("select * from Anime").ToList();
         }
 
-        public Anime GetAnimeById(int animeId)
+        public static Anime GetAnimeById(int animeId)
         {
             return Connection.Query<Anime>("GetAnimeById", new {ID = animeId},
                 commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
-        public void UpdateAnime(int animeId, int score = -1, int watchedEpisodes = -1, int status = -1)
+        public static void UpdateAnime(int animeId, int score = -1, int watchedEpisodes = -1, int status = -1)
         {
             Connection.Execute("UpdateMyAnime",
                 new {ID = animeId, Score = score, WatchedEpisodes = watchedEpisodes, Status = status},
                 commandType: CommandType.StoredProcedure);
         }
 
-        public void InsertAnime(MyAnime myAnime)
+        public static void InsertAnime(MyAnime myAnime)
         {
             Connection.Execute("InsertMyAnime", myAnime, commandType: CommandType.StoredProcedure);
         }
 
-        public void InsertAnime(Anime anime)
+        public static void InsertAnime(Anime anime)
         {
             Connection.Execute("InsertAnime", anime, commandType: CommandType.StoredProcedure);
         }
 
-        public void UpdateAnime(UpdateAnime anime)
+        public static void UpdateAnime(UpdateAnime anime)
         {
             Connection.Execute("UpdateAnime", anime, commandType: CommandType.StoredProcedure);
         }
 
-        public void InsertGenre(int animeId, string genres)
+        public static void InsertGenre(int animeId, string genres)
         {
             var genre = genres.Split(',');
             foreach (var g in genre)
@@ -101,7 +101,7 @@ namespace AnimeUploader
             return Connection.Query<GetAnime>("Select AnimeId from MyAnimeList").ToList();
         }
 
-        public bool AnimeExists(int animeDb, bool checkMyList)
+        public static bool AnimeExists(int animeDb, bool checkMyList)
         {
             bool doesExist;
             if (checkMyList)
