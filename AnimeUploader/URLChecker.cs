@@ -95,24 +95,16 @@ namespace AnimeUploader
             string[] newSequelId = null;
             var newSequel = "";
             //Try catch for these two as these are the only things that might or might not exist.
-            try
-            {
+            if(prequelId != null) {
                 newPrequelId = prequelId.GetAttributeValue("href", "").Split('/');
                 newPrequel = prequel.InnerText.Replace("Prequel:", "").Trim().Replace("'", "''");
             }
-            catch (Exception)
-            {
-                // ignored
-            }
 
-            try
+            if (sequelId != null)
             {
                 newSequelId = sequelId.GetAttributeValue("href", "").Split('/');
                 newSequel = sequel.InnerText.Replace("Sequel:", "").Trim().Replace("'", "''");
-            }
-            catch (Exception)
-            {
-                // ignored
+
             }
 
             anime.ID = Convert.ToInt32(id);
