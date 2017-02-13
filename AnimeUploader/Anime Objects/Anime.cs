@@ -18,16 +18,7 @@ namespace AnimeUploader
         public string Prequel { get; set; }
         public string Genre { get; set; }
 
-        private static readonly Dictionary<string,int> TypeDictionary = new Dictionary<string,int>()
-        {
-            {"TV",1 },
-            {"OVA",2 },
-            {"ONA",3 },
-            {"Special",4 },
-            {"Movie",5 }
-        };
-
-        public static int GetRating(string rating)
+        int IAnime.GetRating(string rating)
         {
             int ratingNumber;
 
@@ -55,12 +46,23 @@ namespace AnimeUploader
             return ratingNumber;
         }
 
-        public static int GetType(string type)
+        private static readonly Dictionary<string,int> TypeDictionary = new Dictionary<string,int>()
+        {
+            {"TV",1 },
+            {"OVA",2 },
+            {"ONA",3 },
+            {"Special",4 },
+            {"Movie",5 }
+        };
+
+      
+
+         int IAnime.GetType(string type)
         {
            return TypeDictionary[type];
         }
 
-        public static int GetStatus(string status)
+        int IAnime.GetStatus(string status)
         {
             var statusNumber = 0;
 

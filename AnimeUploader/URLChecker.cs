@@ -76,7 +76,7 @@ namespace AnimeUploader
 
         private void ProccessResult(string page, string id)
         {
-            var anime = new Anime();
+            IAnime anime = new Anime();
             var nodeSettings = LoadJson();
             var document = new HtmlDocument();
             document.LoadHtml(page);
@@ -134,13 +134,13 @@ namespace AnimeUploader
             }
 
             anime.ID = Convert.ToInt32(id);
-            anime.Rating = Anime.GetRating(rating);
-            anime.Type = Anime.GetType(type);
+            anime.Rating = anime.GetRating(rating);
+            anime.Type = anime.GetType(type);
             anime.Episodes = episode == "Unknown" ? 0 : Convert.ToInt32(episode);
             anime.Duration = duration;
             anime.Aired = aired;
             anime.Description = synopsis;
-            anime.Status = Anime.GetStatus(status);
+            anime.Status = anime.GetStatus(status);
             anime.PrequelID = newPrequelId == null ? 0 : Convert.ToInt32(newPrequelId[2]);
             anime.Prequel = newPrequel;
             anime.SequelID = newSequelId == null ? 0 : Convert.ToInt32(newSequelId[2]);
@@ -148,7 +148,7 @@ namespace AnimeUploader
             anime.Genre = genres;
             anime.Title = title;
 
-            AnimeList.Add(anime);
+            AnimeList.Add((Anime)anime);
         }
     }
 }

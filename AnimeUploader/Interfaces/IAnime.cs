@@ -18,5 +18,9 @@ namespace AnimeUploader
         int? PrequelID { get; set; }
         string Prequel { get; set; }
         string Genre { get; set; }
+
+        int GetRating(string rating);
+        int GetType(string type);
+        int GetStatus(string status);
     }
 }
