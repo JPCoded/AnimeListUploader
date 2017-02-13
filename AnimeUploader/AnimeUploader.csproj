@@ -85,6 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interfaces\IAnime.cs" />
     <Compile Include="Nodes.cs" />
     <Compile Include="URLChecker.cs" />
     <Page Include="MainWindow.xaml">

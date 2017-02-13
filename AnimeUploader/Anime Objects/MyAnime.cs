@@ -8,7 +8,7 @@
         public int Score { get; set; }
         public int AnimeID { get; set; }
 
-        public int GetStatus(string status)
+        public static int GetStatus(string status)
         {
             var returnValue = 0;
             switch (status)

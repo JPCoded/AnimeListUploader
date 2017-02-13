@@ -7,7 +7,7 @@ namespace AnimeUploader
     {
         public static Anime GetAnimeInfo(int animeId)
         {
-            var anime = new Anime();
+            IAnime anime = new Anime();
 
             var document = GetPage(animeId);
 
@@ -65,7 +65,7 @@ namespace AnimeUploader
             anime.Genre = genres;
             anime.Title = title;
 
-            return anime;
+            return (Anime)anime;
         }
 
         private static HtmlDocument GetPage(int idToFetch)

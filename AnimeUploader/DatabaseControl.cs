@@ -31,7 +31,7 @@ namespace AnimeUploader
 
         private static List<Item> LoadJson()
         {
-            var items = new List<Item>();
+            List<Item> items;
             using (var r = new StreamReader("DatabaseSettings.json"))
             {
                 var json = r.ReadToEnd();
@@ -53,7 +53,7 @@ namespace AnimeUploader
                 commandType: CommandType.StoredProcedure).FirstOrDefault();
         }
 
-        public IEnumerable<Anime> GetAnime()
+        public static IEnumerable<Anime> GetAnime()
         {
             return Connection.Query<Anime>("select * from Anime").ToList();
         }
@@ -117,7 +117,7 @@ namespace AnimeUploader
             return doesExist;
         }
 
-        private class Item
+        private struct Item
         {
             public string DataSource;
             public string InitialCatalog;

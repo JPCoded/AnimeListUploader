@@ -1,10 +1,15 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Xml.Linq;
 
+#endregion
+
 //REFACTOR whole thing badly
+
 namespace AnimeUploader
 {
     /// <summary>
@@ -17,11 +22,8 @@ namespace AnimeUploader
             InitializeComponent();
         }
 
-
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-           
-            
             var animeElements = GetElements("http://myanimelist.net/malappinfo.php?u=CWarlord87&status=all&type=anime");
 
             txtResults.Text += "START: " + GetTime() + "\n";
@@ -47,9 +49,9 @@ namespace AnimeUploader
                 else
                 {
                     var myanime = DatabaseControl.GetMyAnimeById(animeId);
-                    var myStatus = myanime.GetStatus(status);
+                    var myStatus = MyAnime.GetStatus(status);
                     //change to just update specific items
-                    if (Convert.ToInt32(myanime.Status) != myanime.GetStatus(status) ||
+                    if (Convert.ToInt32(myanime.Status) != MyAnime.GetStatus(status) ||
                         score != Convert.ToInt32(myanime.Score) || episodes != Convert.ToInt32(myanime.WatchedEpisodes))
                         DatabaseControl.UpdateAnime(animeId, score, episodes, myStatus);
                 }
@@ -148,8 +150,6 @@ namespace AnimeUploader
 
         private void MyAnimeFun(IEnumerable<XElement> animeElements)
         {
-            var dbControl = new DatabaseControl();
-           
             var animeDbId = new List<int>();
             txtResults.Text += "START: " + GetTime() + "\n";
             foreach (var anime in animeElements)
@@ -173,9 +173,9 @@ namespace AnimeUploader
                 else
                 {
                     var myanime = DatabaseControl.GetMyAnimeById(animeId);
-                    var myStatus = myanime.GetStatus(status);
+                    var myStatus = MyAnime.GetStatus(status);
                     //change to just update specific items
-                    if (Convert.ToInt32(myanime.Status) != myanime.GetStatus(status) ||
+                    if (Convert.ToInt32(myanime.Status) != MyAnime.GetStatus(status) ||
                         score != Convert.ToInt32(myanime.Score) || episodes != Convert.ToInt32(myanime.WatchedEpisodes))
                     {
                         DatabaseControl.UpdateAnime(animeId, score, episodes, myStatus);
@@ -195,8 +195,8 @@ namespace AnimeUploader
         private void btnUpdateAnime_Click(object sender, RoutedEventArgs e)
         {
             var dbcontrol = new DatabaseControl();
-            
-            var animes = dbcontrol.GetAnime();
+
+            var animes = DatabaseControl.GetAnime();
             var anime = animes.ToList();
             var urllist = anime.Select(id => string.Format("http://myanimelist.net/anime/{0}", id.ID)).ToList();
 
@@ -205,10 +205,8 @@ namespace AnimeUploader
 
         private void RunAnime(IList<string> animeList)
         {
-            var dbControl = new DatabaseControl();
-            
             var check = new UrlChecker();
-          var AnimeList =  check.Check(animeList);
+            var AnimeList = check.Check(animeList);
 
             foreach (var anime in AnimeList)
             {

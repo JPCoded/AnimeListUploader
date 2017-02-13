@@ -2,15 +2,41 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnimeUploader"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="MainWindow"
+        Width="525"
+        Height="350"
+        mc:Ignorable="d">
     <Grid>
-        <Button x:Name="btnSubmit" Content="Update Everything" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="128" Click="btnSubmit_Click"/>
-        <TextBox x:Name="txtResults" HorizontalAlignment="Left" Height="206" Margin="10,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="441"/>
-        <Button x:Name="btnUpdateMyAnime" Content="Update MyAnimeList" HorizontalAlignment="Left" Margin="143,10,0,0" VerticalAlignment="Top" Width="128" Click="btnUpdateMyAnime_Click"/>
-        <Button x:Name="btnUpdateAnime" Content="Update Anime" HorizontalAlignment="Left" Margin="276,10,0,0" VerticalAlignment="Top" Width="128" Click="btnUpdateAnime_Click"/>
+        <Button x:Name="btnSubmit"
+                Width="128"
+                Margin="10,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btnSubmit_Click"
+                Content="Update Everything" />
+        <TextBox x:Name="txtResults"
+                 Width="441"
+                 Height="206"
+                 Margin="10,85,0,0"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 TextWrapping="Wrap" />
+        <Button x:Name="btnUpdateMyAnime"
+                Width="128"
+                Margin="143,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btnUpdateMyAnime_Click"
+                Content="Update MyAnimeList" />
+        <Button x:Name="btnUpdateAnime"
+                Width="128"
+                Margin="276,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btnUpdateAnime_Click"
+                Content="Update Anime" />
 
     </Grid>
 </Window>

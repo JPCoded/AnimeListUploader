@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 namespace AnimeUploader
 {
-    public class Anime
+    public class Anime : IAnime
     {
         public int ID { get; set; }
         public string Title { get; set; }
@@ -78,6 +78,8 @@ namespace AnimeUploader
             }
             return statusNumber;
         }
+
+
     }
 
     internal static class AniRating
