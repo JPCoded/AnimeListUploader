@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using Dapper;
-using Newtonsoft.Json;
 
 //CONVERT TO ASYNC
 //change to read both tables at once if needed to reduce number of calls to database.
 
 namespace AnimeUploader
 {
-    internal class DatabaseControl : IDisposable
+    class DatabaseControl : IDisposable
     {
         private static readonly SqlConnection Connection;
 
         static DatabaseControl()
         {
-            var json = LoadJson();
+            var json = JsonLoader.LoadDatabaseSettings();
             Connection =
                 new SqlConnection("Data Source=" + json[0].DataSource + ";Initial Catalog=" + json[0].InitialCatalog +
                                   ";Integrated Security=" + json[0].IntegratedSecurity);
@@ -27,17 +25,6 @@ namespace AnimeUploader
         public void Dispose()
         {
             Connection.Close();
-        }
-
-        private static List<Item> LoadJson()
-        {
-            List<Item> items;
-            using (var r = new StreamReader("DatabaseSettings.json"))
-            {
-                var json = r.ReadToEnd();
-                items = JsonConvert.DeserializeObject<List<Item>>(json);
-            }
-            return items;
         }
 
         public bool GenreExist(int animeId, int genreId)
@@ -115,13 +102,6 @@ namespace AnimeUploader
                 doesExist = list.Count == 0;
             }
             return doesExist;
-        }
-
-        private struct Item
-        {
-            public string DataSource;
-            public string InitialCatalog;
-            public string IntegratedSecurity;
         }
     }
 }

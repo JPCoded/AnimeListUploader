@@ -18,7 +18,7 @@ namespace AnimeUploader
         public string Prequel { get; set; }
         public string Genre { get; set; }
 
-        int IAnime.GetRating(string rating)
+       public int GetRating(string rating)
         {
             int ratingNumber;
 
@@ -57,12 +57,12 @@ namespace AnimeUploader
 
       
 
-         int IAnime.GetType(string type)
+         public int GetType(string type)
         {
            return TypeDictionary[type];
         }
 
-        int IAnime.GetStatus(string status)
+       public int GetStatus(string status)
         {
             var statusNumber = 0;
 

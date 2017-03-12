@@ -1,29 +1,33 @@
 ﻿using System;
 using HtmlAgilityPack;
 
+
 namespace AnimeUploader
 {
     internal static class PageScraper
     {
+
+
         public static Anime GetAnimeInfo(int animeId)
         {
             IAnime anime = new Anime();
-
+           var nodeSettings = JsonLoader.LoadNodeSettings();
+         
             var document = GetPage(animeId);
 
-            var type = document.DocumentNode.SelectSingleNode("//*[text()='Type:']/parent::div").InnerText.Replace("Type:", "").Trim();
-            var episode = document.DocumentNode.SelectSingleNode("//*[text()='Episodes:']/parent::div").InnerText.Replace("Episodes:", "").Trim();
-            var status = document.DocumentNode.SelectSingleNode("//*[text()='Status:']/parent::div").InnerText.Replace("Status:", "").Trim();
-            var aired = document.DocumentNode.SelectSingleNode("//*[text()='Aired:']/parent::div").InnerText.Replace("Aired:", "").Trim();
-            var duration = document.DocumentNode.SelectSingleNode("//*[text()='Duration:']/parent::div").InnerText.Replace("Duration:", "").Trim();
-            var rating = document.DocumentNode.SelectSingleNode("//*[text()='Rating:']/parent::div").InnerText.Replace("Rating:", "").Trim();
-            var synopsis = document.DocumentNode.SelectSingleNode("//meta[@property='og:description']").GetAttributeValue("content","").Replace("'", "''").Trim();
-            var genres = document.DocumentNode.SelectSingleNode("//*[text()='Genres:']/parent::div").InnerText.Replace("Genres:", "").Replace(", ", ",").Trim();
-            var prequelId = document.DocumentNode.SelectSingleNode("//*[text()='Prequel:']/parent::tr/descendant::a");
-            var prequel = document.DocumentNode.SelectSingleNode("//*[text()='Prequel:']/parent::tr");
-            var sequelId = document.DocumentNode.SelectSingleNode("//*[text()='Sequel:']/parent::tr/descendant::a");
-            var sequel = document.DocumentNode.SelectSingleNode("//*[text()='Sequel:']/parent::tr");
-            var title = document.DocumentNode.SelectSingleNode("//meta[@property='og:title']").GetAttributeValue("content", "").Replace("'", "''").Trim();
+            var type = document.DocumentNode.SelectSingleNode(nodeSettings[0].Type).InnerText.Replace("Type:", "").Trim();
+            var episode = document.DocumentNode.SelectSingleNode(nodeSettings[0].Episode).InnerText.Replace("Episodes:", "").Trim();
+            var status = document.DocumentNode.SelectSingleNode(nodeSettings[0].Status).InnerText.Replace("Status:", "").Trim();
+            var aired = document.DocumentNode.SelectSingleNode(nodeSettings[0].Aired).InnerText.Replace("Aired:", "").Trim();
+            var duration = document.DocumentNode.SelectSingleNode(nodeSettings[0].Duration).InnerText.Replace("Duration:", "").Trim();
+            var rating = document.DocumentNode.SelectSingleNode(nodeSettings[0].Rating).InnerText.Replace("Rating:", "").Trim();
+            var synopsis = document.DocumentNode.SelectSingleNode(nodeSettings[0].Synopsis).GetAttributeValue("content","").Replace("'", "''").Trim();
+            var genres = document.DocumentNode.SelectSingleNode(nodeSettings[0].Genres).InnerText.Replace("Genres:", "").Replace(", ", ",").Trim();
+            var prequelId = document.DocumentNode.SelectSingleNode(nodeSettings[0].PrequelId);
+            var prequel = document.DocumentNode.SelectSingleNode(nodeSettings[0].Prequel);
+            var sequelId = document.DocumentNode.SelectSingleNode(nodeSettings[0].SequelId);
+            var sequel = document.DocumentNode.SelectSingleNode(nodeSettings[0].Sequel);
+            var title = document.DocumentNode.SelectSingleNode(nodeSettings[0].Title).GetAttributeValue("content", "").Replace("'", "''").Trim();
 
             string[] newPrequelId = null;
             var newPrequel = "";
@@ -68,6 +72,7 @@ namespace AnimeUploader
             return (Anime)anime;
         }
 
+       
         private static HtmlDocument GetPage(int idToFetch)
         {
             

@@ -63,21 +63,10 @@ namespace AnimeUploader
             }
         }
 
-        private static List<Nodes> LoadJson()
-        {
-            List<Nodes> items;
-            using (var r = new StreamReader("NodeSettings.json"))
-            {
-                var json = r.ReadToEnd();
-                items = JsonConvert.DeserializeObject<List<Nodes>>(json);
-            }
-            return items;
-        }
-
         private void ProccessResult(string page, string id)
         {
             IAnime anime = new Anime();
-            var nodeSettings = LoadJson();
+            var nodeSettings = JsonLoader.LoadNodeSettings();
             var document = new HtmlDocument();
             document.LoadHtml(page);
             var type =
