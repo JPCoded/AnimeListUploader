@@ -1,16 +1,20 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 
+#endregion
+
 //CONVERT TO ASYNC
 //change to read both tables at once if needed to reduce number of calls to database.
 
 namespace AnimeUploader
 {
-    class DatabaseControl : IDisposable
+    internal class DatabaseControl : IDisposable
     {
         private static readonly SqlConnection Connection;
 
@@ -18,8 +22,7 @@ namespace AnimeUploader
         {
             var json = JsonLoader.LoadDatabaseSettings();
             Connection =
-                new SqlConnection("Data Source=" + json[0].DataSource + ";Initial Catalog=" + json[0].InitialCatalog +
-                                  ";Integrated Security=" + json[0].IntegratedSecurity);
+                new SqlConnection(string.Format("Data Source={0};Initial Catalog={1};Integrated Security={2}", json[0].DataSource, json[0].InitialCatalog,json[0].IntegratedSecurity));
         }
 
         public void Dispose()

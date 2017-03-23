@@ -16,6 +16,7 @@ namespace AnimeUploader
             }
             return items;
         }
+
         public static List<Item> LoadDatabaseSettings()
         {
             List<Item> items;
