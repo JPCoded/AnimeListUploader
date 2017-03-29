@@ -1,6 +1,6 @@
 ﻿namespace AnimeUploader
 {
-    public abstract class Nodes
+    public class Nodes
     {
         public readonly string Type;
         public readonly string Episode;

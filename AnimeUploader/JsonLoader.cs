@@ -4,26 +4,26 @@ using Newtonsoft.Json;
 
 namespace AnimeUploader
 {
-   public class JsonLoader
+   public static class JsonLoader
     {
-        public static List<Nodes> LoadNodeSettings()
+        public static  Nodes LoadNodeSettings()
         {
-            List<Nodes> items;
+            Nodes items;
             using (var r = new StreamReader("NodeSettings.json"))
             {
                 var json = r.ReadToEnd();
-                items = JsonConvert.DeserializeObject<List<Nodes>>(json);
+                items = JsonConvert.DeserializeObject<List<Nodes>>(json)[0];
             }
             return items;
         }
 
-        public static List<Item> LoadDatabaseSettings()
+         public static Item LoadDatabaseSettings()
         {
-            List<Item> items;
+            Item items;
             using (var r = new StreamReader("DatabaseSettings.json"))
             {
                 var json = r.ReadToEnd();
-                items = JsonConvert.DeserializeObject<List<Item>>(json);
+                items = JsonConvert.DeserializeObject<List<Item>>(json)[0];
             }
             return items;
         }

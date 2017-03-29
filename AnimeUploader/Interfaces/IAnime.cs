@@ -2,20 +2,20 @@
 {
   interface IAnime
     {
-        int ID { get; set; }
-        string Title { get; set; }
-        int? Type { get; set; }
-        int? Status { get; set; }
-        int? Episodes { get; set; }
-        string Aired { get; set; }
-        string Duration { get; set; }
-        int? Rating { get; set; }
-        string Description { get; set; }
-        int? SequelID { get; set; }
-        string Sequel { get; set; }
-        int? PrequelID { get; set; }
-        string Prequel { get; set; }
-        string Genre { get; set; }
+        int ID { set; }
+        string Title { set; }
+        int? Type { set; }
+        int? Status { set; }
+        int? Episodes { set; }
+        string Aired { set; }
+        string Duration { set; }
+        int? Rating { set; }
+        string Description { set; }
+        int? SequelID { set; }
+        string Sequel { set; }
+        int? PrequelID { set; }
+        string Prequel { set; }
+        string Genre { set; }
         int GetRating(string rating);
         int GetType(string type);
         int GetStatus(string status);

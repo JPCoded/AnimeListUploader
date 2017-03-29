@@ -11,6 +11,7 @@ using Dapper;
 
 //CONVERT TO ASYNC
 //change to read both tables at once if needed to reduce number of calls to database.
+//Create Interface
 
 namespace AnimeUploader
 {
@@ -20,9 +21,10 @@ namespace AnimeUploader
 
         static DatabaseControl()
         {
+            
             var json = JsonLoader.LoadDatabaseSettings();
             Connection =
-                new SqlConnection(string.Format("Data Source={0};Initial Catalog={1};Integrated Security={2}", json[0].DataSource, json[0].InitialCatalog,json[0].IntegratedSecurity));
+                new SqlConnection(string.Format("Data Source={0};Initial Catalog={1};Integrated Security={2}", json.DataSource, json.InitialCatalog,json.IntegratedSecurity));
         }
 
         public void Dispose()

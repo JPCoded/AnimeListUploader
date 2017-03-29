@@ -1,8 +1,23 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
+
+#endregion
+
 namespace AnimeUploader
 {
+    //Think of possible better way instead of using internal classes
     public class Anime : IAnime
     {
+        private static readonly Dictionary<string, int> TypeDictionary = new Dictionary<string, int>
+        {
+            {"TV", 1},
+            {"OVA", 2},
+            {"ONA", 3},
+            {"Special", 4},
+            {"Movie", 5}
+        };
+
         public int ID { get; set; }
         public string Title { get; set; }
         public int? Type { get; set; }
@@ -18,7 +33,7 @@ namespace AnimeUploader
         public string Prequel { get; set; }
         public string Genre { get; set; }
 
-       public int GetRating(string rating)
+        public int GetRating(string rating)
         {
             int ratingNumber;
 
@@ -46,23 +61,12 @@ namespace AnimeUploader
             return ratingNumber;
         }
 
-        private static readonly Dictionary<string,int> TypeDictionary = new Dictionary<string,int>()
+        public int GetType(string type)
         {
-            {"TV",1 },
-            {"OVA",2 },
-            {"ONA",3 },
-            {"Special",4 },
-            {"Movie",5 }
-        };
-
-      
-
-         public int GetType(string type)
-        {
-           return TypeDictionary[type];
+            return TypeDictionary[type];
         }
 
-       public int GetStatus(string status)
+        public int GetStatus(string status)
         {
             var statusNumber = 0;
 
@@ -80,8 +84,6 @@ namespace AnimeUploader
             }
             return statusNumber;
         }
-
-
     }
 
     internal static class AniRating
@@ -99,6 +101,4 @@ namespace AnimeUploader
         public const string Airing = "Currently Airing";
         public const string Finished = "Finished Airing";
     }
-
-    
 }
