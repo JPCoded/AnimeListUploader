@@ -113,34 +113,7 @@ namespace AnimeUploader
                         updateAnime.Episodes != null)
                     {
                         txtResults.Text += "\nAnimeID: " + animeId + "\n";
-                        if (updateAnime.Status != null)
-                        {
-                            txtResults.Text += "Status: " + oldAnime.Status + " -> " + updateAnime.Status + "\n";
-                        }
-                        if (updateAnime.Aired != null)
-                        {
-                            txtResults.Text += "Aired: " + oldAnime.Aired + " -> " + updateAnime.Aired + "\n";
-                        }
-                        if (updateAnime.Duration != null)
-                        {
-                            txtResults.Text += "Duration: " + oldAnime.Duration + " -> " + updateAnime.Duration + "\n";
-                        }
-                        if (updateAnime.Rating != null)
-                        {
-                            txtResults.Text += "Rating: " + oldAnime.Rating + " -> " + updateAnime.Rating + "\n";
-                        }
-                        if (updateAnime.Prequel != null)
-                        {
-                            txtResults.Text += "Prequel: " + oldAnime.Prequel + " -> " + updateAnime.Prequel + "\n";
-                        }
-                        if (updateAnime.Sequel != null)
-                        {
-                            txtResults.Text += "Sequel: " + oldAnime.Sequel + " -> " + updateAnime.Sequel + "\n";
-                        }
-                        if (updateAnime.Episodes != null)
-                        {
-                            txtResults.Text += "Episodes: " + oldAnime.Episodes + " -> " + updateAnime.Episodes + "\n";
-                        }
+                        updateTxtResults(oldAnime, updateAnime);
                         DatabaseControl.UpdateAnime(updateAnime);
                     }
                 }
@@ -194,8 +167,6 @@ namespace AnimeUploader
 
         private void btnUpdateAnime_Click(object sender, RoutedEventArgs e)
         {
-            var dbcontrol = new DatabaseControl();
-
             var animes = DatabaseControl.GetAnime();
             var anime = animes.ToList();
             var urllist = anime.Select(id => string.Format("http://myanimelist.net/anime/{0}", id.ID)).ToList();
@@ -205,8 +176,8 @@ namespace AnimeUploader
 
         private void RunAnime(IList<string> animeList)
         {
-            var check = new UrlChecker();
-            var AnimeList = check.Check(animeList);
+            var urlChecker = new UrlChecker();
+            var AnimeList = urlChecker.Check(animeList);
 
             foreach (var anime in AnimeList)
             {
@@ -234,40 +205,48 @@ namespace AnimeUploader
                         updateAnime.Episodes != null)
                     {
                         txtResults.Text += "\nAnimeID: " + anime.ID + "\n";
-                        if (updateAnime.Status != null)
-                        {
-                            txtResults.Text += "Status: " + oldAnime.Status + " -> " + updateAnime.Status + "\n";
-                        }
-                        if (updateAnime.Aired != null)
-                        {
-                            txtResults.Text += "Aired: " + oldAnime.Aired + " -> " + updateAnime.Aired + "\n";
-                        }
-                        if (updateAnime.Duration != null)
-                        {
-                            txtResults.Text += "Duration: " + oldAnime.Duration + " -> " + updateAnime.Duration + "\n";
-                        }
-                        if (updateAnime.Rating != null)
-                        {
-                            txtResults.Text += "Rating: " + oldAnime.Rating + " -> " + updateAnime.Rating + "\n";
-                        }
-                        if (updateAnime.Prequel != null)
-                        {
-                            txtResults.Text += "Prequel: " + oldAnime.Prequel + " -> " + updateAnime.Prequel + "\n";
-                        }
-                        if (updateAnime.Sequel != null)
-                        {
-                            txtResults.Text += "Sequel: " + oldAnime.Sequel + " -> " + updateAnime.Sequel + "\n";
-                        }
-                        if (updateAnime.Episodes != null)
-                        {
-                            txtResults.Text += "Episodes: " + oldAnime.Episodes + " -> " + updateAnime.Episodes + "\n";
-                        }
+                        updateTxtResults(oldAnime,updateAnime);
                         DatabaseControl.UpdateAnime(updateAnime);
                     }
                 }
             }
         }
 
+
+        void updateTxtResults(Anime oldAnime, UpdateAnime updateAnime)
+        {
+            if (updateAnime.Status != null)
+            {
+                txtResults.Text += string.Format("Status: {0} -> {1}\n", oldAnime.Status, updateAnime.Status);
+            }
+            if (updateAnime.Aired != null)
+            {
+                txtResults.Text += string.Format("Aired: {0} -> {1}\n", oldAnime.Aired, updateAnime.Aired);
+            }
+            if (updateAnime.Duration != null)
+            {
+                txtResults.Text += string.Format("Duration: {0} -> {1}\n", oldAnime.Duration,
+                    updateAnime.Duration);
+            }
+            if (updateAnime.Rating != null)
+            {
+                txtResults.Text += string.Format("Rating: {0} -> {1}\n", oldAnime.Rating, updateAnime.Rating);
+            }
+            if (updateAnime.Prequel != null)
+            {
+                txtResults.Text += string.Format("Prequel: {0} -> {1}\n", oldAnime.Prequel,
+                    updateAnime.Prequel);
+            }
+            if (updateAnime.Sequel != null)
+            {
+                txtResults.Text += string.Format("Sequel: {0} -> {1}\n", oldAnime.Sequel, updateAnime.Sequel);
+            }
+            if (updateAnime.Episodes != null)
+            {
+                txtResults.Text += string.Format("Episodes: {0} -> {1}\n", oldAnime.Episodes,
+                    updateAnime.Episodes);
+            }
+        }
         private static string GetTime()
         {
             return string.Format("{0}:{1}:{2}", DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
