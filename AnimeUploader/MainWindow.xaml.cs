@@ -31,10 +31,10 @@ namespace AnimeUploader
             {
                 var myanimeObject = new MyAnime();
 
-                var status = anime.Element("my_status").Value;
-                var episodes = Convert.ToInt32(anime.Element("my_watched_episodes").Value);
-                var score = Convert.ToInt32(anime.Element("my_score").Value);
-                var animeId = Convert.ToInt32(anime.Element("series_animedb_id").Value);
+                var status = anime.Element("my_status")?.Value;
+                var episodes = Convert.ToInt32(anime.Element("my_watched_episodes")?.Value);
+                var score = Convert.ToInt32(anime.Element("my_score")?.Value);
+                var animeId = Convert.ToInt32(anime.Element("series_animedb_id")?.Value);
 
                 AnimeFunction(animeId);
 
@@ -113,7 +113,7 @@ namespace AnimeUploader
                         updateAnime.Episodes != null)
                     {
                         txtResults.Text += "\nAnimeID: " + animeId + "\n";
-                        updateTxtResults(oldAnime, updateAnime);
+                        UpdateTxtResults(oldAnime, updateAnime);
                         DatabaseControl.UpdateAnime(updateAnime);
                     }
                 }
@@ -129,10 +129,10 @@ namespace AnimeUploader
             {
                 var myanimeObject = new MyAnime();
 
-                var status = anime.Element("my_status").Value;
-                var episodes = Convert.ToInt32(anime.Element("my_watched_episodes").Value);
-                var score = Convert.ToInt32(anime.Element("my_score").Value);
-                var animeId = Convert.ToInt32(anime.Element("series_animedb_id").Value);
+                var status = anime.Element("my_status")?.Value;
+                var episodes = Convert.ToInt32(anime.Element("my_watched_episodes")?.Value);
+                var score = Convert.ToInt32(anime.Element("my_score")?.Value);
+                var animeId = Convert.ToInt32(anime.Element("series_animedb_id")?.Value);
                 animeDbId.Add(animeId);
 
                 if (DatabaseControl.AnimeExists(animeId, true))
@@ -205,7 +205,7 @@ namespace AnimeUploader
                         updateAnime.Episodes != null)
                     {
                         txtResults.Text += "\nAnimeID: " + anime.ID + "\n";
-                        updateTxtResults(oldAnime,updateAnime);
+                        UpdateTxtResults(oldAnime,updateAnime);
                         DatabaseControl.UpdateAnime(updateAnime);
                     }
                 }
@@ -213,7 +213,7 @@ namespace AnimeUploader
         }
 
 
-        void updateTxtResults(Anime oldAnime, UpdateAnime updateAnime)
+        void UpdateTxtResults(Anime oldAnime, UpdateAnime updateAnime)
         {
             if (updateAnime.Status != null)
             {
