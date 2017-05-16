@@ -86,6 +86,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GetDocumentNodes.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interfaces\IAnime.cs" />
     <Compile Include="JsonLoader.cs" />

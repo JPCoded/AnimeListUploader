@@ -12,41 +12,31 @@ namespace AnimeUploader
         public static Anime GetAnimeInfo(int animeId)
         {
             IAnime anime = new Anime();
-
-            var nodeSettings = JsonLoader.LoadNodeSettings();
-
+         
             var document = GetPage(animeId);
+            var documentNodes = new GetDocumentNodes(document);
 
-            var type = document.DocumentNode.SelectSingleNode(nodeSettings.Type).InnerText.Replace("Type:", "").Trim();
-            var episode =
-                document.DocumentNode.SelectSingleNode(nodeSettings.Episode).InnerText.Replace("Episodes:", "").Trim();
-            var status =
-                document.DocumentNode.SelectSingleNode(nodeSettings.Status).InnerText.Replace("Status:", "").Trim();
-            var aired =
-                document.DocumentNode.SelectSingleNode(nodeSettings.Aired).InnerText.Replace("Aired:", "").Trim();
-            var duration =
-                document.DocumentNode.SelectSingleNode(nodeSettings.Duration).InnerText.Replace("Duration:", "").Trim();
-            var rating =
-                document.DocumentNode.SelectSingleNode(nodeSettings.Rating).InnerText.Replace("Rating:", "").Trim();
-            var synopsis =
-                document.DocumentNode.SelectSingleNode(nodeSettings.Synopsis)
-                    .GetAttributeValue("content", "")
-                    .Replace("'", "''")
-                    .Trim();
-            var genres =
-                document.DocumentNode.SelectSingleNode(nodeSettings.Genres)
-                    .InnerText.Replace("Genres:", "")
-                    .Replace(", ", ",")
-                    .Trim();
-            var prequelId = document.DocumentNode.SelectSingleNode(nodeSettings.PrequelId);
-            var prequel = document.DocumentNode.SelectSingleNode(nodeSettings.Prequel);
-            var sequelId = document.DocumentNode.SelectSingleNode(nodeSettings.SequelId);
-            var sequel = document.DocumentNode.SelectSingleNode(nodeSettings.Sequel);
-            var title =
-                document.DocumentNode.SelectSingleNode(nodeSettings.Title)
-                    .GetAttributeValue("content", "")
-                    .Replace("'", "''")
-                    .Trim();
+            var type = documentNodes.getType();
+
+            var episode = documentNodes.getEpisode();
+
+            var status = documentNodes.getStatus();
+
+            var aired = documentNodes.getAired();
+
+            var duration = documentNodes.getDuration();
+
+            var rating = documentNodes.getRating();
+
+            var synopsis = documentNodes.getSynopsis();
+
+            var genres = documentNodes.getGenres();
+
+            var prequelId = documentNodes.getPrequelId();
+            var prequel = documentNodes.getPrequel();
+            var sequelId = documentNodes.getSequelId();
+            var sequel = documentNodes.getSequel();
+            var title = documentNodes.getTitles();
 
             string[] newPrequelId = null;
             var newPrequel = "";
