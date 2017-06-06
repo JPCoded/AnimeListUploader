@@ -1,6 +1,6 @@
 ﻿namespace AnimeUploader
 {
-    public class UpdateAnime
+    internal sealed class UpdateAnime
     {
         public int ID { get; set; }
         public int? Status { get; set; }

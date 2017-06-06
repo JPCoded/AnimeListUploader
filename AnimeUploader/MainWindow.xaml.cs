@@ -15,9 +15,9 @@ namespace AnimeUploader
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public sealed partial class MainWindow
     {
-        public MainWindow()
+        internal MainWindow()
         {
             InitializeComponent();
         }
@@ -169,7 +169,7 @@ namespace AnimeUploader
         {
             var animes = DatabaseControl.GetAnime();
             var anime = animes.ToList();
-            var urllist = anime.Select(id => string.Format("http://myanimelist.net/anime/{0}", id.ID)).ToList();
+            var urllist = anime.Select(id => $"http://myanimelist.net/anime/{id.ID}").ToList();
 
             RunAnime(urllist);
         }
@@ -217,39 +217,36 @@ namespace AnimeUploader
         {
             if (updateAnime.Status != null)
             {
-                txtResults.Text += string.Format("Status: {0} -> {1}\n", oldAnime.Status, updateAnime.Status);
+                txtResults.Text += $"Status: {oldAnime.Status} -> {updateAnime.Status}\n";
             }
             if (updateAnime.Aired != null)
             {
-                txtResults.Text += string.Format("Aired: {0} -> {1}\n", oldAnime.Aired, updateAnime.Aired);
+                txtResults.Text += $"Aired: {oldAnime.Aired} -> {updateAnime.Aired}\n";
             }
             if (updateAnime.Duration != null)
             {
-                txtResults.Text += string.Format("Duration: {0} -> {1}\n", oldAnime.Duration,
-                    updateAnime.Duration);
+                txtResults.Text += $"Duration: {oldAnime.Duration} -> {updateAnime.Duration}\n";
             }
             if (updateAnime.Rating != null)
             {
-                txtResults.Text += string.Format("Rating: {0} -> {1}\n", oldAnime.Rating, updateAnime.Rating);
+                txtResults.Text += $"Rating: {oldAnime.Rating} -> {updateAnime.Rating}\n";
             }
             if (updateAnime.Prequel != null)
             {
-                txtResults.Text += string.Format("Prequel: {0} -> {1}\n", oldAnime.Prequel,
-                    updateAnime.Prequel);
+                txtResults.Text += $"Prequel: {oldAnime.Prequel} -> {updateAnime.Prequel}\n";
             }
             if (updateAnime.Sequel != null)
             {
-                txtResults.Text += string.Format("Sequel: {0} -> {1}\n", oldAnime.Sequel, updateAnime.Sequel);
+                txtResults.Text += $"Sequel: {oldAnime.Sequel} -> {updateAnime.Sequel}\n";
             }
             if (updateAnime.Episodes != null)
             {
-                txtResults.Text += string.Format("Episodes: {0} -> {1}\n", oldAnime.Episodes,
-                    updateAnime.Episodes);
+                txtResults.Text += $"Episodes: {oldAnime.Episodes} -> {updateAnime.Episodes}\n";
             }
         }
         private static string GetTime()
         {
-            return string.Format("{0}:{1}:{2}", DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            return $"{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
         }
     }
 }

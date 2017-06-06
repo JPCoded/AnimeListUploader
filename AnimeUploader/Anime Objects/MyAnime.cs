@@ -1,6 +1,6 @@
 ﻿namespace AnimeUploader
 {
-    public class MyAnime
+    internal sealed class MyAnime
     {
         public int ID { get; set; }
         public string Status { get; set; }
@@ -29,12 +29,14 @@
                 case "3":
                     returnValue = 4;
                     break;
+                default:
+                    break;
             }
             return returnValue;
         }
     }
 
-    public class GetAnime
+    internal class GetAnime
     {
         
         public int AnimeID { get; set; }

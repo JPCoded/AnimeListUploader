@@ -18,25 +18,25 @@ namespace AnimeUploader
 
             var type = documentNodes.getType();
 
-            var episode = documentNodes.getEpisode();
+            var episode = documentNodes.GetEpisode();
 
-            var status = documentNodes.getStatus();
+            var status = documentNodes.GetStatus();
 
-            var aired = documentNodes.getAired();
+            var aired = documentNodes.GetAired();
 
-            var duration = documentNodes.getDuration();
+            var duration = documentNodes.GetDuration();
 
-            var rating = documentNodes.getRating();
+            var rating = documentNodes.GetRating();
 
-            var synopsis = documentNodes.getSynopsis();
+            var synopsis = documentNodes.GetSynopsis();
 
-            var genres = documentNodes.getGenres();
+            var genres = documentNodes.GetGenres();
 
-            var prequelId = documentNodes.getPrequelId();
-            var prequel = documentNodes.getPrequel();
-            var sequelId = documentNodes.getSequelId();
-            var sequel = documentNodes.getSequel();
-            var title = documentNodes.getTitles();
+            var prequelId = documentNodes.GetPrequelId();
+            var prequel = documentNodes.GetPrequel();
+            var sequelId = documentNodes.GetSequelId();
+            var sequel = documentNodes.GetSequel();
+            var title = documentNodes.GetTitles();
 
             string[] newPrequelId = null;
             var newPrequel = "";
@@ -84,7 +84,7 @@ namespace AnimeUploader
         private static HtmlDocument GetPage(int idToFetch)
         {
             var getHtmlWeb = new HtmlWeb();
-            return getHtmlWeb.Load(string.Format("http://myanimelist.net/anime/{0}", idToFetch));
+            return getHtmlWeb.Load($"http://myanimelist.net/anime/{idToFetch}");
         }
     }
 }

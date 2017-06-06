@@ -1,6 +1,6 @@
 ﻿namespace AnimeUploader
 {
-  interface IAnime
+    internal interface IAnime
     {
         int ID { set; }
         string Title { set; }

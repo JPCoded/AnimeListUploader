@@ -6,7 +6,7 @@ using HtmlAgilityPack;
 
 namespace AnimeUploader
 {
-    internal class GetDocumentNodes
+    internal sealed class GetDocumentNodes
     {
         private readonly HtmlDocument _document;
         private readonly Nodes _nodes;
@@ -22,32 +22,32 @@ namespace AnimeUploader
             return _document.DocumentNode.SelectSingleNode(_nodes.Type).InnerText.Replace("Type:", "").Trim();
         }
 
-        public string getEpisode()
+        public string GetEpisode()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.Episode).InnerText.Replace("Episodes:", "").Trim();
         }
 
-        public string getStatus()
+        public string GetStatus()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.Status).InnerText.Replace("Status:", "").Trim();
         }
 
-        public string getAired()
+        public string GetAired()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.Aired).InnerText.Replace("Aired:", "").Trim();
         }
 
-        public string getDuration()
+        public string GetDuration()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.Duration).InnerText.Replace("Duration:", "").Trim();
         }
 
-        public string getRating()
+        public string GetRating()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.Rating).InnerText.Replace("Rating:", "").Trim();
         }
 
-        public string getSynopsis()
+        public string GetSynopsis()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.Synopsis)
                 .GetAttributeValue("content", "")
@@ -55,7 +55,7 @@ namespace AnimeUploader
                 .Trim();
         }
 
-        public string getGenres()
+        public string GetGenres()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.Genres)
                 .InnerText.Replace("Genres:", "")
@@ -63,7 +63,7 @@ namespace AnimeUploader
                 .Trim();
         }
 
-        public string getTitles()
+        public string GetTitles()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.Title)
                 .GetAttributeValue("content", "")
@@ -71,22 +71,22 @@ namespace AnimeUploader
                 .Trim();
         }
 
-        public HtmlNode getPrequelId()
+        public HtmlNode GetPrequelId()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.PrequelId);
         }
 
-        public HtmlNode getPrequel()
+        public HtmlNode GetPrequel()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.Prequel);
         }
 
-        public HtmlNode getSequelId()
+        public HtmlNode GetSequelId()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.SequelId);
         }
 
-        public HtmlNode getSequel()
+        public HtmlNode GetSequel()
         {
             return _document.DocumentNode.SelectSingleNode(_nodes.Sequel);
         }
