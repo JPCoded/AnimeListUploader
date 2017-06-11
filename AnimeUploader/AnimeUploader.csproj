@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AnimeUploader</RootNamespace>
     <AssemblyName>AnimeUploader</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -41,8 +41,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <LangVersion>6</LangVersion>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <LangVersion>7</LangVersion>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -85,6 +85,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Anime Objects\AniAiring.cs" />
+    <Compile Include="Anime Objects\AniRating.cs" />
+    <Compile Include="Anime Objects\GetAnime.cs" />
+    <Compile Include="Interfaces\IMyAnime.cs" />
+    <Compile Include="Interfaces\IGetAnime.cs" />
+    <Compile Include="Interfaces\IUpdateAnime.cs" />
     <Compile Include="GetDocumentNodes.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interfaces\IAnime.cs" />

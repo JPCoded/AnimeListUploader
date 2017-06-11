@@ -6,7 +6,7 @@ namespace AnimeUploader
 {
    public static class JsonLoader
     {
-        public static  Nodes LoadNodeSettings()
+        internal static  Nodes LoadNodeSettings()
         {
             Nodes items;
             using (var r = new StreamReader("NodeSettings.json"))
@@ -17,7 +17,7 @@ namespace AnimeUploader
             return items;
         }
 
-         public static Item LoadDatabaseSettings()
+        internal static Item LoadDatabaseSettings()
         {
             Item items;
             using (var r = new StreamReader("DatabaseSettings.json"))
@@ -30,9 +30,9 @@ namespace AnimeUploader
 
        public struct Item
         {
-            public string DataSource;
-            public string InitialCatalog;
-            public string IntegratedSecurity;
+            internal string DataSource;
+            internal string InitialCatalog;
+            internal string IntegratedSecurity;
         }
     }
 }

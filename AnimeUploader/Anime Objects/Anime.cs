@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace AnimeUploader
 {
     //Think of possible better way instead of using internal classes
-    public class Anime : IAnime
+    public sealed class Anime : IAnime
     {
         private static readonly Dictionary<string, int> TypeDictionary = new Dictionary<string, int>
         {
@@ -61,10 +61,7 @@ namespace AnimeUploader
             return ratingNumber;
         }
 
-        public int GetType(string type)
-        {
-            return TypeDictionary[type];
-        }
+        public int GetType(string type) => TypeDictionary[type];
 
         public int GetStatus(string status)
         {
@@ -81,24 +78,10 @@ namespace AnimeUploader
                 case AniAiring.Finished:
                     statusNumber = 3;
                     break;
+                default:
+                    break;
             }
             return statusNumber;
         }
-    }
-
-    internal static class AniRating
-    {
-        public const string G = "G - All Ages";
-        public const string Pg = "PG - Children";
-        public const string Pg13 = "PG-13 - Teens 13 or older";
-        public const string R = "R - 17+ (violence &amp; profanity)";
-        public const string X = "R+ - Mild Nudity";
-    }
-
-    internal static class AniAiring
-    {
-        public const string NotAired = "Not yet aired";
-        public const string Airing = "Currently Airing";
-        public const string Finished = "Finished Airing";
     }
 }

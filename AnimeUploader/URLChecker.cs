@@ -11,7 +11,7 @@ using HtmlAgilityPack;
 
 namespace AnimeUploader
 {
-    internal class UrlChecker : IDisposable
+    internal sealed class UrlChecker : IDisposable
     {
         private const int ThreadCount = 3;
         private CountdownEvent _countdownEvent;

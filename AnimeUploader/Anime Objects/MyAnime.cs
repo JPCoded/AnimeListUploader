@@ -1,6 +1,6 @@
 ﻿namespace AnimeUploader
 {
-    internal sealed class MyAnime
+    internal sealed class MyAnime : IMyAnime
     {
         public int ID { get; set; }
         public string Status { get; set; }
@@ -34,11 +34,5 @@
             }
             return returnValue;
         }
-    }
-
-    internal class GetAnime
-    {
-        
-        public int AnimeID { get; set; }
     }
 }
