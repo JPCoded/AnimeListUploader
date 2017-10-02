@@ -88,6 +88,7 @@
     <Compile Include="Anime Objects\AniAiring.cs" />
     <Compile Include="Anime Objects\AniRating.cs" />
     <Compile Include="Anime Objects\GetAnime.cs" />
+    <Compile Include="Interfaces\IDatabaseControl.cs" />
     <Compile Include="Interfaces\IMyAnime.cs" />
     <Compile Include="Interfaces\IGetAnime.cs" />
     <Compile Include="Interfaces\IUpdateAnime.cs" />

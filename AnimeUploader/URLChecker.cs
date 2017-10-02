@@ -61,6 +61,7 @@ namespace AnimeUploader
             }
         }
 
+        //Figure way to combine with PageScraper function
         private void ProccessResult(string page, string id)
         {
             IAnime anime = new Anime();
@@ -68,7 +69,7 @@ namespace AnimeUploader
             document.LoadHtml(page);
             var documentNodes = new GetDocumentNodes(document);
 
-            var type = documentNodes.getType();
+            var type = documentNodes.GetType();
 
             var episode = documentNodes.GetEpisode();
 

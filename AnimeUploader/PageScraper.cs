@@ -16,7 +16,7 @@ namespace AnimeUploader
             var document = GetPage(animeId);
             var documentNodes = new GetDocumentNodes(document);
 
-            var type = documentNodes.getType();
+            var type = documentNodes.GetType();
 
             var episode = documentNodes.GetEpisode();
 

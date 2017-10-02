@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace AnimeUploader
 {
-   public static class JsonLoader
+    internal static class JsonLoader
     {
         internal static  Nodes LoadNodeSettings()
         {
@@ -28,7 +28,7 @@ namespace AnimeUploader
             return items;
         }
 
-       public struct Item
+        internal struct Item
         {
             internal string DataSource;
             internal string InitialCatalog;

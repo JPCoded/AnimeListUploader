@@ -17,7 +17,7 @@ namespace AnimeUploader
             _nodes = JsonLoader.LoadNodeSettings();
         }
 
-        public string getType() => _document.DocumentNode.SelectSingleNode(_nodes.Type).InnerText.Replace("Type:", "").Trim();
+        public new string GetType() => _document.DocumentNode.SelectSingleNode(_nodes.Type).InnerText.Replace("Type:", "").Trim();
 
         public string GetEpisode() => _document.DocumentNode.SelectSingleNode(_nodes.Episode).InnerText.Replace("Episodes:", "").Trim();
 

@@ -15,7 +15,7 @@ using Dapper;
 
 namespace AnimeUploader
 {
-    internal class DatabaseControl : IDisposable
+    internal class DatabaseControl : IDisposable, IDatabaseControl
     {
         private static readonly SqlConnection Connection;
 
@@ -23,14 +23,10 @@ namespace AnimeUploader
         {
             
             var json = JsonLoader.LoadDatabaseSettings();
-            Connection =
-                new SqlConnection(string.Format("Data Source={0};Initial Catalog={1};Integrated Security={2}", json.DataSource, json.InitialCatalog,json.IntegratedSecurity));
+            Connection = new SqlConnection($"Data Source={json.DataSource};Initial Catalog={json.InitialCatalog};Integrated Security={json.IntegratedSecurity}");
         }
 
-        public void Dispose()
-        {
-            Connection.Close();
-        }
+        public void Dispose() => Connection.Close();
 
         public bool GenreExist(int animeId, int genreId)
         {
@@ -39,44 +35,23 @@ namespace AnimeUploader
             return !genre.Any();
         }
 
-        public static MyAnime GetMyAnimeById(int animeId)
-        {
-            return Connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
-                commandType: CommandType.StoredProcedure).FirstOrDefault();
-        }
+        public static MyAnime GetMyAnimeById(int animeId) => Connection.Query<MyAnime>("GetMyAnimeById", new {ID = animeId},
+            commandType: CommandType.StoredProcedure).FirstOrDefault();
 
-        public static IEnumerable<Anime> GetAnime()
-        {
-            return Connection.Query<Anime>("select * from Anime").ToList();
-        }
+        public static IEnumerable<Anime> GetAnime() => Connection.Query<Anime>("select * from Anime").ToList();
 
-        public static Anime GetAnimeById(int animeId)
-        {
-            return Connection.Query<Anime>("GetAnimeById", new {ID = animeId},
-                commandType: CommandType.StoredProcedure).FirstOrDefault();
-        }
+        public static Anime GetAnimeById(int animeId) => Connection.Query<Anime>("GetAnimeById", new {ID = animeId},
+            commandType: CommandType.StoredProcedure).FirstOrDefault();
 
-        public static void UpdateAnime(int animeId, int score = -1, int watchedEpisodes = -1, int status = -1)
-        {
-            Connection.Execute("UpdateMyAnime",
-                new {ID = animeId, Score = score, WatchedEpisodes = watchedEpisodes, Status = status},
+        public static void UpdateAnime(int animeId, int score = -1, int watchedEpisodes = -1, int status = -1) => Connection.Execute("UpdateMyAnime",
+                new { ID = animeId, Score = score, WatchedEpisodes = watchedEpisodes, Status = status },
                 commandType: CommandType.StoredProcedure);
-        }
 
-        public static void InsertAnime(MyAnime myAnime)
-        {
-            Connection.Execute("InsertMyAnime", myAnime, commandType: CommandType.StoredProcedure);
-        }
+        public static void InsertAnime(MyAnime myAnime) => Connection.Execute("InsertMyAnime", myAnime, commandType: CommandType.StoredProcedure);
 
-        public static void InsertAnime(Anime anime)
-        {
-            Connection.Execute("InsertAnime", anime, commandType: CommandType.StoredProcedure);
-        }
+        public static void InsertAnime(Anime anime) => Connection.Execute("InsertAnime", anime, commandType: CommandType.StoredProcedure);
 
-        public static void UpdateAnime(UpdateAnime anime)
-        {
-            Connection.Execute("UpdateAnime", anime, commandType: CommandType.StoredProcedure);
-        }
+        public static void UpdateAnime(UpdateAnime anime) => Connection.Execute("UpdateAnime", anime, commandType: CommandType.StoredProcedure);
 
         public static void InsertGenre(int animeId, string genres)
         {
@@ -88,10 +63,7 @@ namespace AnimeUploader
             }
         }
 
-        public List<GetAnime> GetAllMyListId()
-        {
-            return Connection.Query<GetAnime>("Select AnimeId from MyAnimeList").ToList();
-        }
+        public List<GetAnime> GetAllMyListId() => Connection.Query<GetAnime>("Select AnimeId from MyAnimeList").ToList();
 
         public static bool AnimeExists(int animeDb, bool checkMyList)
         {

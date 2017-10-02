@@ -17,10 +17,7 @@ namespace AnimeUploader
     /// </summary>
     public sealed partial class MainWindow
     {
-        internal MainWindow()
-        {
-            InitializeComponent();
-        }
+        internal MainWindow() => InitializeComponent();
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
@@ -213,7 +210,7 @@ namespace AnimeUploader
         }
 
 
-        void UpdateTxtResults(Anime oldAnime, UpdateAnime updateAnime)
+        private void UpdateTxtResults(Anime oldAnime, IUpdateAnime updateAnime)
         {
             if (updateAnime.Status != null)
             {
@@ -244,9 +241,7 @@ namespace AnimeUploader
                 txtResults.Text += $"Episodes: {oldAnime.Episodes} -> {updateAnime.Episodes}\n";
             }
         }
-        private static string GetTime()
-        {
-            return $"{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
-        }
+
+        private static string GetTime() => $"{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
     }
 }
