@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace AnimeUploader
 {
-    //Think of possible better way instead of using internal classes
+    //get rid of switch statements
     public sealed class Anime : IAnime
     {
         private static readonly Dictionary<string, int> TypeDictionary = new Dictionary<string, int>
